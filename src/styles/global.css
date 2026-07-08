@@ -1,27 +1,36 @@
 @import "tailwindcss";
 
-/* Body/UI font (clean sans) and heading font (characterful serif). */
+/* Body/UI font (clean sans) and heading font (elegant serif). */
 @import "@fontsource-variable/inter";
-@import "@fontsource-variable/fraunces";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/700.css";
+@import "@fontsource/cormorant-garamond/500-italic.css";
 
 /*
-  DESIGN TOKENS — The Old Ship (v2: navy-on-white, nautical)
-  Light/white ground, ink text, one deep-navy accent for the ship/sea theme.
-  Referenced in Tailwind as e.g. bg-white, text-ink, text-navy, bg-paper.
+  DESIGN TOKENS: The Old Ship (navy + gold, warm heritage)
+  Navy lead colour, warmed with a gold accent and cream panels. Elegant Cormorant
+  Garamond headings over a clean Inter body.
+  Referenced in Tailwind as e.g. bg-white, bg-paper, text-navy, text-gold.
 */
 @theme {
-  /* Deep-navy nautical accent */
-  --color-navy: #1b3a5b;          /* primary accent */
-  --color-navy-deep: #12293f;     /* darker, for footers/overlays */
+  /* Deep-navy lead colour */
+  --color-navy: #1b3a5b;          /* primary */
+  --color-navy-deep: #12293f;     /* darker, for footers/overlays/bands */
   --color-navy-soft: #2c5578;     /* hovers / secondary */
 
-  /* Light neutrals */
-  --color-paper: #f7f9fb;         /* soft-white section background */
-  --color-mist: #eef3f7;          /* light pill / hover tint */
-  --color-ink: #1c2b36;           /* body text */
+  /* Gold accent (hairlines, labels, flourishes) */
+  --color-gold: #b08d57;
+  --color-gold-light: #cbab74;
+
+  /* Warm neutrals */
+  --color-paper: #f5f1e8;         /* warm cream section background */
+  --color-mist: #efe9dc;          /* light pill / hover tint (warm) */
+  --color-ink: #24303a;           /* body text */
 
   /* Type */
-  --font-serif: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
@@ -41,7 +50,42 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fraunces looks best with a touch of optical/soft styling for a heritage feel. */
+/* Cormorant is a high-contrast display serif; nudge letter-spacing tighter for
+   big headings so it reads as an elegant wordmark rather than body text. */
 h1, h2, h3, .font-serif {
-  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+/* Signature touches: gold hairline, dashed texture */
+
+/* Gold hairline rule (used beside eyebrows and as section dividers). */
+.hairline {
+  display: inline-block;
+  height: 1px;
+  width: 2.5rem;
+  background-color: var(--color-gold);
+  opacity: 0.8;
+}
+
+/* Subtle decorative dashed-curve texture for navy full-bleed bands.
+   Layered faint sweeping strokes, gold-tinted, very low opacity. */
+.dash-texture {
+  position: relative;
+}
+.dash-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='600' viewBox='0 0 1200 600'>\
+<g fill='none' stroke='%23b08d57' stroke-width='1.2' stroke-dasharray='2 9' stroke-linecap='round' opacity='0.5'>\
+<path d='M-40 120 C 300 40, 900 40, 1240 120'/>\
+<path d='M-40 210 C 300 130, 900 130, 1240 210'/>\
+<path d='M-40 470 C 300 560, 900 560, 1240 470'/>\
+<path d='M-40 380 C 300 470, 900 470, 1240 380'/>\
+</g></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }

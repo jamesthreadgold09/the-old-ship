@@ -1,20 +1,23 @@
 ---
-// Our Story (brief §4.2, copy §11) — 1637 heritage + free-house + revival.
+// Our Story: 1637 heritage, free house, and revival narrative.
 import { Image } from 'astro:assets';
+import SectionHeader from './SectionHeader.astro';
 import storyImg from '../assets/photos/story-fireplace.jpg';
 ---
 
 <section id="story" class="bg-white px-5 py-20 sm:px-6 sm:py-24">
   <div class="mx-auto max-w-6xl">
-    <div class="mx-auto max-w-2xl text-center">
-      <span class="text-xs font-medium uppercase tracking-[0.28em] text-navy">Est. 1637</span>
-      <h2 class="mt-3 font-serif text-4xl font-semibold text-ink sm:text-5xl">Our Story</h2>
-    </div>
+    <SectionHeader eyebrow="Est. 1637" title="Our Story">
+      {/* ship icon */}
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 15l1.6 3.2a2 2 0 0 0 1.8 1.1h11.2a2 2 0 0 0 1.8-1.1L21 15M5 15h14l-2-4H7l-2 4zM12 3v8M12 3l3 2M12 3L9 5" />
+      </svg>
+    </SectionHeader>
 
     <div class="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
       <Image
         src={storyImg}
-        alt="The Old Ship's cosy interior — a lit wood-burning stove set in an exposed-brick inglenook, with copper pans and brass plaques"
+        alt="The Old Ship's cosy interior with a lit wood-burning stove set in an exposed-brick inglenook, copper pans and brass plaques"
         widths={[480, 768, 1100]}
         sizes="(min-width: 1024px) 50vw, 100vw"
         loading="lazy"
@@ -24,19 +27,19 @@ import storyImg from '../assets/photos/story-fireplace.jpg';
       <div class="space-y-5 text-lg leading-relaxed text-ink/80">
         <p>
           Tucked just off the Marlow Road in the village of Cadmore End, The Old Ship is the sort of
-          pub England does best — low beams, a warm welcome, and no airs about it. There's been an inn
+          pub England does best: low beams, a warm welcome and no airs about it. There's been an inn
           on this spot <strong class="font-semibold text-ink">since 1637</strong>, which means beer has
           been poured here for the best part of four centuries.
         </p>
         <p>
           For generations it was the heart of the village, and after a long spell with its doors
-          closed, it's open once more — back to doing what it always did well: honest food, well-kept
-          ale, and good company.
+          closed, it's open once more, back to doing what it always did well: honest food, well-kept
+          ale and good company.
         </p>
         <p>
           As a <strong class="font-semibold text-ink">free house</strong>, we answer to no brewery. The
-          beers on our pumps are there because they're good, not because we're told to pour them — and
-          most come from breweries right on our doorstep.
+          beers on our pumps are there because they're good, not because we're told to pour them. Most
+          come from breweries right on our doorstep.
         </p>
       </div>
     </div>

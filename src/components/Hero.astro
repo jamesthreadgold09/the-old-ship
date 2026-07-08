@@ -1,17 +1,16 @@
 ---
-// Hero (v2: centred, navy-on-white theme). Full-bleed background photo with a
-// legible scrim and CENTRED white content: name, "since 1637" tagline, an open
-// snapshot, and the two primary actions.
+// Hero: full-bleed background photo with a legible scrim and centred white
+// content (name, "since 1637" tagline, open snapshot, and two primary actions).
 import { Image } from 'astro:assets';
 import heroExterior from '../assets/photos/hero-exterior.jpg';
 import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
 ---
 
 <section id="home" class="relative isolate flex min-h-[88vh] items-center overflow-hidden">
-  <!-- Full-bleed hero photograph -->
+  {/* Full-bleed hero photograph */}
   <Image
     src={heroExterior}
-    alt="The Old Ship free house — the whitewashed 17th-century pub in Cadmore End, with its painted sign, under a blue sky"
+    alt="The Old Ship free house, the whitewashed 17th-century pub in Cadmore End, with its painted sign, under a blue sky"
     widths={[640, 960, 1280, 1920, 2200]}
     sizes="100vw"
     loading="eager"
@@ -19,7 +18,7 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
     class="absolute inset-0 -z-10 h-full w-full object-cover"
   />
 
-  <!-- legibility scrim -->
+  {/* legibility scrim */}
   <div
     class="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/85 via-navy-deep/45 to-navy-deep/65"
     aria-hidden="true"
@@ -27,13 +26,13 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
   </div>
 
   <div class="mx-auto w-full max-w-3xl px-5 py-20 text-center sm:px-6">
-    <p class="mb-5 flex items-center justify-center gap-3 text-sm font-medium uppercase tracking-[0.28em] text-white/85">
-      <span class="h-px w-8 bg-white/50"></span>
-      Cadmore End · Buckinghamshire
-      <span class="h-px w-8 bg-white/50"></span>
+    <p class="mb-4 flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-light">
+      <span class="h-px w-8 bg-gold-light/70"></span>
+      Welcome to
+      <span class="h-px w-8 bg-gold-light/70"></span>
     </p>
 
-    <h1 class="font-serif text-5xl font-semibold leading-[1.05] text-white sm:text-6xl md:text-7xl">
+    <h1 class="font-serif text-6xl font-semibold leading-[0.95] text-white sm:text-7xl md:text-8xl">
       The Old Ship
     </h1>
 
@@ -45,17 +44,17 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
       A proper village free house in the Buckinghamshire hills.
     </p>
 
-    <!-- Open snapshot -->
+    {/* Open snapshot */}
     <div class="mx-auto mt-8 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-xl bg-white/10 px-4 py-3 text-sm text-white ring-1 ring-white/20 backdrop-blur-sm">
       <span class="inline-flex items-center gap-2 font-medium">
-        <span class="h-2 w-2 rounded-full bg-white"></span>
+        <span class="h-2 w-2 rounded-full bg-gold-light"></span>
         Kitchen 12–2:30pm, every day
       </span>
       <span class="hidden text-white/40 sm:inline">·</span>
       <span class="text-white/80">Bar open into the evening</span>
     </div>
 
-    <!-- Primary actions -->
+    {/* Primary actions */}
     <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <a
         href={PHONE_HREF}
@@ -70,7 +69,7 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
         href={DIRECTIONS_HREF}
         target="_blank"
         rel="noopener"
-        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/50 px-6 py-3 text-base font-medium text-white transition-colors hover:border-white hover:bg-white/10 sm:w-auto"
+        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold-light/60 px-6 py-3 text-base font-medium text-white transition-colors hover:border-gold-light hover:bg-white/10 sm:w-auto"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" />

@@ -1,6 +1,6 @@
 # The Old Ship
 
-Website for **The Old Ship**, a traditional English village free house in Cadmore End, Buckinghamshire — an inn on this site since 1637.
+Website for **The Old Ship**, a traditional English village free house in Cadmore End, Buckinghamshire. An inn has stood on this site since 1637.
 
 A single-page, mobile-first site built with **Astro** + **Tailwind CSS**.
 
@@ -15,7 +15,7 @@ npm run preview
 
 ## Deploy
 
-Hosted on **GitHub Pages** via `.github/workflows/deploy.yml` — every push to `main` builds and deploys automatically. The site is served under the `/the-old-ship/` base path (see `base` in `astro.config.mjs`).
+Hosted on **GitHub Pages** via `.github/workflows/deploy.yml`. Every push to `main` builds and deploys automatically. The site is served under the `/the-old-ship/` base path (see `base` in `astro.config.mjs`).
 
 ## Notes
 

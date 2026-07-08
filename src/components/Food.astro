@@ -1,7 +1,8 @@
 ---
-// Food (brief §4.3 + §5, copy §11) — daily-board philosophy, reliable items,
-// prominent LUNCH-ONLY food times, and an illustrative sample gallery.
+// Food: daily-board philosophy, reliable items, prominent lunch-only food
+// times, and an illustrative sample gallery.
 import { Image } from 'astro:assets';
+import SectionHeader from './SectionHeader.astro';
 import board1 from '../assets/photos/menu-board-1.jpg';
 import board2 from '../assets/photos/menu-board-2.jpg';
 import board3 from '../assets/photos/menu-board-3.jpg';
@@ -22,36 +23,40 @@ const reliables = [
 
 <section id="food" class="bg-paper px-5 py-20 sm:px-6 sm:py-24">
   <div class="mx-auto max-w-6xl">
+    <SectionHeader eyebrow="From the daily board" title="Food">
+      {/* crossed spoon & fork */}
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M17 3c-1.5 0-2.5 1.8-2.5 4.5S15.5 12 17 12s2.5-1.8 2.5-4.5S18.5 3 17 3zM17 12v9" />
+      </svg>
+    </SectionHeader>
     <div class="mx-auto max-w-2xl text-center">
-      <span class="text-xs font-medium uppercase tracking-[0.28em] text-navy">From the daily board</span>
-      <h2 class="mt-3 font-serif text-4xl font-semibold text-ink sm:text-5xl">Food</h2>
-      <p class="mt-6 font-serif text-2xl italic text-navy">No fixed menu — and that's the point.</p>
+      <p class="mt-6 font-serif text-3xl italic text-navy">No fixed menu, and that's the point.</p>
       <p class="mt-4 text-lg leading-relaxed text-ink/80">
         Every morning we chalk up the day's board, cooked from the freshest ingredients we can get our
         hands on. What you eat today might not be here tomorrow.
       </p>
     </div>
 
-    <!-- Prominent food-times callout (brief §5: nobody should turn up at 7pm) -->
-    <div class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl bg-navy px-6 py-5 text-center text-white shadow-lg shadow-navy/20">
-      <span class="text-xs font-medium uppercase tracking-[0.28em] text-white/70">Kitchen hours</span>
-      <p class="font-serif text-2xl font-semibold sm:text-3xl">Food served every day, 12–2:30pm</p>
-      <p class="text-sm text-white/80">The bar stays open into the evening — but the kitchen is lunchtime only.</p>
+    {/* Prominent food-times callout so nobody turns up at 7pm expecting dinner */}
+    <div class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl border-t-2 border-gold bg-navy px-6 py-6 text-center text-white shadow-lg shadow-navy/20">
+      <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-light">Kitchen hours</span>
+      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, 12–2:30pm</p>
+      <p class="text-sm text-white/80">The bar stays open into the evening, but the kitchen is lunchtime only.</p>
     </div>
 
-    <!-- Reliable anchors -->
+    {/* Reliable anchors */}
     <div class="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
       {
         reliables.map((r) => (
-          <div class="rounded-xl border border-navy/15 bg-white px-5 py-5 text-center">
-            <p class="font-serif text-lg font-semibold text-ink">{r.title}</p>
+          <div class="rounded-xl border border-navy/15 bg-white px-5 py-6 text-center">
+            <p class="font-serif text-2xl font-semibold text-navy">{r.title}</p>
             <p class="mt-1 text-sm text-ink/60">{r.note}</p>
           </div>
         ))
       }
     </div>
 
-    <!-- Illustrative sample gallery -->
+    {/* Illustrative sample gallery */}
     <div class="mt-14">
       <div class="grid gap-4 sm:grid-cols-3">
         {
@@ -68,11 +73,11 @@ const reliables = [
         }
       </div>
       <p class="mt-4 text-center text-sm italic text-ink/55">
-        A taste of what comes off the board — for illustration, not today's menu.
+        A taste of what comes off the board. For illustration only, not today's menu.
       </p>
     </div>
 
-    <!-- CTA -->
+    {/* CTA */}
     <div class="mx-auto mt-12 max-w-2xl text-center">
       <p class="text-lg text-ink/80">
         Want to know what's on the board today? Give us a ring or just pop in.

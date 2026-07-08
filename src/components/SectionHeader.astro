@@ -1,0 +1,29 @@
+---
+// Shared section header (King's Head feel): a small gold icon flourish framed by
+// gold hairlines, an uppercase gold eyebrow, and an elegant Cormorant heading.
+// Pass the icon via the default slot (an inline SVG).
+interface Props {
+  eyebrow: string;
+  title: string;
+  tone?: 'light' | 'dark'; // 'dark' = on navy bands (light text)
+}
+const { eyebrow, title, tone = 'light' } = Astro.props;
+const headingColor = tone === 'dark' ? 'text-white' : 'text-navy';
+const eyebrowColor = tone === 'dark' ? 'text-gold-light' : 'text-gold';
+---
+
+<div class="mx-auto max-w-2xl text-center">
+  <div class="flex items-center justify-center gap-3 text-gold">
+    <span class="hairline"></span>
+    <span class:list={[tone === 'dark' && 'text-gold-light']}>
+      <slot />
+    </span>
+    <span class="hairline"></span>
+  </div>
+  <p class:list={['mt-4 text-xs font-medium uppercase tracking-[0.28em]', eyebrowColor]}>
+    {eyebrow}
+  </p>
+  <h2 class:list={['mt-2 font-serif text-4xl font-semibold leading-tight sm:text-5xl', headingColor]}>
+    {title}
+  </h2>
+</div>

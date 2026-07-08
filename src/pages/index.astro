@@ -9,8 +9,8 @@ import WhatsOn from '../components/WhatsOn.astro';
 import Visit from '../components/Visit.astro';
 import { ADDRESS_LINE, PHONE_HREF, PHONE_DISPLAY, EMAIL, EMAIL_HREF, FACEBOOK_URL } from '../lib/site';
 
-// Single-page scroll (brief §4). Sections use the anchors the nav links to.
-// Facebook Page Plugin embed + JSON-LD remain deferred.
+// Single-page scroll. Sections use the anchors the nav links to.
+// Open Graph meta and JSON-LD schema are not built yet.
 const year = 2026;
 ---
 
@@ -26,8 +26,9 @@ const year = 2026;
 
     <footer class="bg-navy-deep px-5 py-14 text-center text-white/80 sm:px-6">
       <div class="mx-auto max-w-3xl">
-        <p class="font-serif text-2xl text-white">The Old Ship</p>
-        <p class="mt-1 text-sm italic text-white/60">Serving Cadmore End since 1637</p>
+        <span class="mx-auto mb-6 block h-px w-16 bg-gold/70"></span>
+        <p class="font-serif text-3xl text-white">The Old Ship</p>
+        <p class="mt-1 text-sm italic text-gold-light/80">Serving Cadmore End since 1637</p>
         <p class="mt-5 text-sm">{ADDRESS_LINE}</p>
         <p class="mt-1 text-sm">
           <a href={PHONE_HREF} class="hover:text-white">{PHONE_DISPLAY}</a>
