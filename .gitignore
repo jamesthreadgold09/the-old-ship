@@ -14,3 +14,8 @@ npm-debug.log*
 
 # large HEIC photo originals (not deployed)
 photo-originals/
+
+# editor workspace files
+*.code-workspace
+# internal build brief (kept locally, not published)
+old-ship-website-brief.md

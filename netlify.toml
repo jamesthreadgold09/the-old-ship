@@ -1,9 +1,0 @@
-# Netlify config — deploys the static Astro build to a free *.netlify.app
-# subdomain. When the owner buys a domain, point it here in Netlify's
-# domain settings; nothing rebuilds (brief §9).
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "24"
