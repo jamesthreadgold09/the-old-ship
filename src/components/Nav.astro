@@ -1,0 +1,113 @@
+---
+// Sticky top navigation (v2: centred, navy-on-white).
+// Menu toggle (left) opens the anchor links · wordmark centred · persistent
+// "Get Directions" and "Call to Book" actions (right). Mirrors the reference.
+const navLinks = [
+  { href: '#story', label: 'Our Story' },
+  { href: '#food', label: 'Food' },
+  { href: '#drinks', label: 'Drinks' },
+  { href: '#whats-on', label: "What's On" },
+  { href: '#visit', label: 'Visit Us' },
+];
+
+import { PHONE_HREF, DIRECTIONS_HREF } from '../lib/site';
+---
+
+<header class="sticky top-0 z-50">
+  <nav
+    class="border-b border-navy/10 bg-white/90 text-navy shadow-[0_1px_0_rgba(0,0,0,0.02)] backdrop-blur-md"
+    aria-label="Primary"
+  >
+    <!-- 3-column grid keeps the wordmark truly centred regardless of side widths -->
+    <div class="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 sm:px-6">
+      <!-- Left: menu toggle -->
+      <div class="flex justify-start">
+        <button
+          id="nav-toggle"
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full px-2.5 py-2 text-sm font-medium text-navy transition-colors hover:bg-mist"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <span class="hidden sm:inline">Menu</span>
+        </button>
+      </div>
+
+      <!-- Centre: wordmark -->
+      <a href="#home" class="flex flex-col items-center leading-none text-navy">
+        <span class="font-serif text-lg font-semibold tracking-wide sm:text-xl">The Old Ship</span>
+        <span class="mt-0.5 text-[0.55rem] font-medium uppercase tracking-[0.3em] text-navy-soft"
+          >Est. 1637</span
+        >
+      </a>
+
+      <!-- Right: persistent actions -->
+      <div class="flex items-center justify-end gap-2">
+        <a
+          href={DIRECTIONS_HREF}
+          target="_blank"
+          rel="noopener"
+          class="hidden rounded-full border border-navy/40 px-4 py-2 text-sm font-medium text-navy transition-colors hover:border-navy hover:bg-mist sm:inline-block"
+        >
+          Get Directions
+        </a>
+        <a
+          href={PHONE_HREF}
+          class="rounded-full bg-navy px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
+        >
+          Call to Book
+        </a>
+      </div>
+    </div>
+
+    <!-- Dropdown menu (anchor links) — used at all breakpoints, per reference -->
+    <div id="nav-menu" class="hidden border-t border-navy/10 bg-white">
+      <ul class="mx-auto grid max-w-6xl gap-1 px-4 py-3 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="block rounded-lg px-3 py-3 text-base font-medium text-navy transition-colors hover:bg-mist"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="sm:hidden">
+          <a
+            href={DIRECTIONS_HREF}
+            target="_blank"
+            rel="noopener"
+            class="block rounded-lg border border-navy/30 px-3 py-3 text-center text-base font-medium text-navy"
+          >
+            Get Directions
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Minimal, no-framework dropdown toggle.
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  // Close after tapping a link.
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>

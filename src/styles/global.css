@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Body/UI font (clean sans) and heading font (characterful serif). */
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/fraunces";
+
+/*
+  DESIGN TOKENS — The Old Ship (v2: navy-on-white, nautical)
+  Light/white ground, ink text, one deep-navy accent for the ship/sea theme.
+  Referenced in Tailwind as e.g. bg-white, text-ink, text-navy, bg-paper.
+*/
+@theme {
+  /* Deep-navy nautical accent */
+  --color-navy: #1b3a5b;          /* primary accent */
+  --color-navy-deep: #12293f;     /* darker, for footers/overlays */
+  --color-navy-soft: #2c5578;     /* hovers / secondary */
+
+  /* Light neutrals */
+  --color-paper: #f7f9fb;         /* soft-white section background */
+  --color-mist: #eef3f7;          /* light pill / hover tint */
+  --color-ink: #1c2b36;           /* body text */
+
+  /* Type */
+  --font-serif: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Sensible base: white ground, ink sans body, smooth anchor scrolling
+   offset for the sticky nav. */
+html {
+  scroll-behavior: smooth;
+  /* keeps anchored sections clear of the sticky nav */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fraunces looks best with a touch of optical/soft styling for a heritage feel. */
+h1, h2, h3, .font-serif {
+  font-optical-sizing: auto;
+}

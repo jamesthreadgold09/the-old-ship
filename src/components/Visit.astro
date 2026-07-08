@@ -1,0 +1,118 @@
+---
+// Visit Us (brief §4.6, copy §11) — address, map, bar + kitchen hours shown
+// SEPARATELY, contact, facilities.
+import { Image } from 'astro:assets';
+import visitImg from '../assets/photos/visit-garden.jpg';
+import {
+  ADDRESS_LINE,
+  PHONE_HREF,
+  PHONE_DISPLAY,
+  EMAIL,
+  EMAIL_HREF,
+  DIRECTIONS_HREF,
+  MAP_EMBED_SRC,
+} from '../lib/site';
+
+const barHours = [
+  { days: 'Monday–Thursday', time: '11am–3pm, 5–11pm' },
+  { days: 'Friday–Sunday', time: '11am–11pm' },
+];
+const facilities = [
+  'Dog friendly',
+  'Large garden with plenty of seating',
+  'Step-free access & accessible toilets',
+  'Brand-new car park',
+];
+---
+
+<section id="visit" class="bg-white px-5 py-20 sm:px-6 sm:py-24">
+  <div class="mx-auto max-w-6xl">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="text-xs font-medium uppercase tracking-[0.28em] text-navy">Find us</span>
+      <h2 class="mt-3 font-serif text-4xl font-semibold text-ink sm:text-5xl">Visit Us</h2>
+    </div>
+
+    <Image
+      src={visitImg}
+      alt="The Old Ship's large sunny garden with a paved terrace, tables and a pergola"
+      widths={[640, 960, 1400]}
+      sizes="100vw"
+      loading="lazy"
+      class="mt-10 h-56 w-full rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10 sm:h-72"
+    />
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <!-- Details -->
+      <div>
+        <p class="font-serif text-2xl font-semibold text-ink">The Old Ship</p>
+        <p class="mt-2 text-ink/75">{ADDRESS_LINE}</p>
+        <p class="mt-3 text-ink/75">
+          <a href={PHONE_HREF} class="font-medium text-navy hover:underline">{PHONE_DISPLAY}</a>
+          <span class="text-ink/30"> · </span>
+          <a href={EMAIL_HREF} class="font-medium text-navy hover:underline">{EMAIL}</a>
+        </p>
+
+        <!-- Hours: bar and kitchen kept clearly separate -->
+        <div class="mt-8 grid gap-5 sm:grid-cols-2">
+          <div class="rounded-xl border border-navy/15 bg-paper px-5 py-5">
+            <p class="text-xs font-medium uppercase tracking-[0.22em] text-navy">Bar</p>
+            <dl class="mt-3 space-y-2 text-sm">
+              {
+                barHours.map((h) => (
+                  <div>
+                    <dt class="font-medium text-ink">{h.days}</dt>
+                    <dd class="text-ink/70">{h.time}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+          <div class="rounded-xl border border-navy/15 bg-paper px-5 py-5">
+            <p class="text-xs font-medium uppercase tracking-[0.22em] text-navy">Kitchen (food served)</p>
+            <dl class="mt-3 space-y-2 text-sm">
+              <div>
+                <dt class="font-medium text-ink">Every day</dt>
+                <dd class="text-ink/70">12–2:30pm</dd>
+              </div>
+            </dl>
+            <p class="mt-3 text-xs italic text-ink/55">Lunchtime only — the bar is open evenings.</p>
+          </div>
+        </div>
+
+        <!-- Facilities -->
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.28em] text-ink/50">Good to know</p>
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {
+            facilities.map((f) => (
+              <li class="rounded-full border border-navy/15 bg-mist px-4 py-1.5 text-sm text-navy">{f}</li>
+            ))
+          }
+        </ul>
+
+        <a
+          href={DIRECTIONS_HREF}
+          target="_blank"
+          rel="noopener"
+          class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
+        >
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" />
+            <circle cx="12" cy="10" r="2.5" />
+          </svg>
+          Get Directions
+        </a>
+      </div>
+
+      <!-- Map -->
+      <div class="overflow-hidden rounded-2xl ring-1 ring-navy/15 shadow-lg shadow-navy/10">
+        <iframe
+          src={MAP_EMBED_SRC}
+          title="Map showing The Old Ship, Cadmore End"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="h-72 w-full border-0 lg:h-full lg:min-h-[420px]"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

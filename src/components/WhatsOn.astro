@@ -1,0 +1,33 @@
+---
+// What's On (brief §4.5) — the live Facebook Page Plugin feed is DEFERRED.
+// For now this is the brief's own fallback (§6): a prominent "Follow us on
+// Facebook" link. The embedded feed will replace this card later.
+import { FACEBOOK_URL } from '../lib/site';
+---
+
+<section id="whats-on" class="bg-paper px-5 py-20 sm:px-6 sm:py-24">
+  <div class="mx-auto max-w-2xl text-center">
+    <span class="text-xs font-medium uppercase tracking-[0.28em] text-navy">Stay in the loop</span>
+    <h2 class="mt-3 font-serif text-4xl font-semibold text-ink sm:text-5xl">What's On</h2>
+    <p class="mt-6 text-lg leading-relaxed text-ink/80">
+      Our news, events and the day's board go up on Facebook first. Give us a follow for what's
+      happening at The Old Ship.
+    </p>
+
+    <a
+      href={FACEBOOK_URL}
+      target="_blank"
+      rel="noopener"
+      class="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-navy px-7 py-3.5 text-base font-semibold text-white shadow-md shadow-navy/20 transition-colors hover:bg-navy-soft"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z" />
+      </svg>
+      Follow us on Facebook
+    </a>
+
+    <p class="mt-5 text-xs text-ink/45">
+      ▢ The live Facebook feed will be embedded here in a later pass.
+    </p>
+  </div>
+</section>

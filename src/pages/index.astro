@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Story from '../components/Story.astro';
+import Food from '../components/Food.astro';
+import Drinks from '../components/Drinks.astro';
+import WhatsOn from '../components/WhatsOn.astro';
+import Visit from '../components/Visit.astro';
+import { ADDRESS_LINE, PHONE_HREF, PHONE_DISPLAY, EMAIL, EMAIL_HREF, FACEBOOK_URL } from '../lib/site';
+
+// Single-page scroll (brief §4). Sections use the anchors the nav links to.
+// Facebook Page Plugin embed + JSON-LD remain deferred.
+const year = 2026;
+---
+
+<Layout>
+  <Nav />
+  <main>
+    <Hero />
+    <Story />
+    <Food />
+    <Drinks />
+    <WhatsOn />
+    <Visit />
+
+    <footer class="bg-navy-deep px-5 py-14 text-center text-white/80 sm:px-6">
+      <div class="mx-auto max-w-3xl">
+        <p class="font-serif text-2xl text-white">The Old Ship</p>
+        <p class="mt-1 text-sm italic text-white/60">Serving Cadmore End since 1637</p>
+        <p class="mt-5 text-sm">{ADDRESS_LINE}</p>
+        <p class="mt-1 text-sm">
+          <a href={PHONE_HREF} class="hover:text-white">{PHONE_DISPLAY}</a>
+          <span class="text-white/30"> · </span>
+          <a href={EMAIL_HREF} class="hover:text-white">{EMAIL}</a>
+        </p>
+        <p class="mt-5">
+          <a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z" />
+            </svg>
+            Follow us on Facebook
+          </a>
+        </p>
+        <p class="mt-8 text-xs text-white/40">© {year} The Old Ship, Cadmore End · Free house</p>
+      </div>
+    </footer>
+  </main>
+</Layout>
