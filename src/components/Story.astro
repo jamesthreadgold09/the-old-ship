@@ -2,7 +2,7 @@
 // Our Story: 1637 heritage, free house, and revival narrative.
 import { Image } from 'astro:assets';
 import SectionHeader from './SectionHeader.astro';
-import storyImg from '../assets/photos/story-fireplace.jpg';
+import storyImg from '../assets/photos/story-interior.jpg';
 ---
 
 <section id="story" class="bg-white px-5 py-20 sm:px-6 sm:py-24">
@@ -17,11 +17,11 @@ import storyImg from '../assets/photos/story-fireplace.jpg';
     <div class="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
       <Image
         src={storyImg}
-        alt="The Old Ship's cosy interior with a lit wood-burning stove set in an exposed-brick inglenook, copper pans and brass plaques"
+        alt="A snug corner of The Old Ship: a low beam painted 'Duck or Grouse', a cushioned window seat looking onto the garden, and a worn oak table set for a chat"
         widths={[480, 768, 1100]}
         sizes="(min-width: 1024px) 50vw, 100vw"
         loading="lazy"
-        class="w-full rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10"
+        class="mx-auto max-h-[34rem] w-full rounded-2xl object-cover object-top shadow-lg shadow-navy/10 ring-1 ring-navy/10"
       />
 
       <div class="space-y-5 text-lg leading-relaxed text-ink/80">

@@ -1,7 +1,8 @@
 ---
 // Drinks: free house, rotating local ales, and wine. Kept light.
 import { Image } from 'astro:assets';
-import drinksImg from '../assets/photos/drinks-pumps.jpg';
+import alesImg from '../assets/photos/drinks-ales.jpg';
+import tapsImg from '../assets/photos/drinks-taps.jpg';
 
 const breweries = ['Rebellion', 'Chiltern', 'Loddon', 'Ossett'];
 ---
@@ -9,15 +10,25 @@ const breweries = ['Rebellion', 'Chiltern', 'Loddon', 'Ossett'];
 <section id="drinks" class="bg-white px-5 py-20 sm:px-6 sm:py-24">
   <div class="mx-auto max-w-6xl">
     <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-      {/* Portrait image */}
-      <Image
-        src={drinksImg}
-        alt="The Old Ship's brass bar top with a row of rotating hand pumps and colourful pump clips"
-        widths={[420, 660, 900]}
-        sizes="(min-width: 1024px) 45vw, 100vw"
-        loading="lazy"
-        class="mx-auto w-full max-w-md rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10 lg:order-last"
-      />
+      {/* Two photos as one flush frame: cask ales on top, tap font below */}
+      <div class="mx-auto w-full max-w-md overflow-hidden rounded-2xl shadow-lg shadow-navy/10 ring-1 ring-navy/10 lg:order-last">
+        <Image
+          src={alesImg}
+          alt="Three cask hand pumps at The Old Ship with clips for Rebellion Zebedee, Fuller's London Pride and Loddon Hoppit"
+          widths={[420, 660, 900]}
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          loading="lazy"
+          class="h-60 w-full object-cover object-[center_62%] sm:h-64"
+        />
+        <Image
+          src={tapsImg}
+          alt="The Old Ship's tap font pouring Renegade lager, Kicking Goat cider, a session IPA, Carlsberg and Guinness"
+          widths={[420, 660, 900]}
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          loading="lazy"
+          class="h-60 w-full object-cover object-center sm:h-64"
+        />
+      </div>
 
       <div>
         <div class="flex items-center gap-3 text-gold">
@@ -34,8 +45,7 @@ const breweries = ['Rebellion', 'Chiltern', 'Loddon', 'Ossett'];
             change what's on regularly, so there's usually something new to try.
           </p>
           <p>
-            On tap you'll also find a couple of lagers and a cider, which we switch around from time to
-            time.
+            On tap you'll also find a couple of lagers and a cider, plus a proper pint of Guinness.
           </p>
           <p>
             Not one for ale? We've a well-chosen wine list of reds, whites, rosé and Prosecco, alongside

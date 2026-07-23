@@ -1,0 +1,55 @@
+---
+// The Garden: the outdoor space, a sunny terrace and covered pergola.
+// Photo-led and warm. The carousel moves from calm garden views to livelier
+// gatherings under the pergola; the copy stays understated.
+import SectionHeader from './SectionHeader.astro';
+import Carousel from './Carousel.astro';
+import gardenTerrace from '../assets/photos/garden-terrace.jpg';
+import gardenView from '../assets/photos/garden-view.jpg';
+import gatheringDay from '../assets/photos/garden-gathering-day.jpg';
+import gatheringEvening from '../assets/photos/garden-gathering-evening.jpg';
+
+const gardenPhotos = [
+  {
+    src: gardenTerrace,
+    alt: "The Old Ship's sunny back garden: a timber pergola, a brick terrace with bistro tables, a stone sphere water feature and a wide lawn under blue sky",
+  },
+  {
+    src: gardenView,
+    alt: 'A wide view of the garden: the timber pergola and its seating on the left, a stone sphere water feature, a lawn and terrace tables, with the pub beyond',
+  },
+  {
+    src: gatheringDay,
+    alt: 'A busy afternoon under the pergola, friends gathered with drinks around the tables',
+  },
+  {
+    src: gatheringEvening,
+    alt: 'A warm evening under the pergola, a full house with festoon lights overhead',
+  },
+];
+---
+
+<section id="garden" class="bg-paper px-5 py-20 sm:px-6 sm:py-24">
+  <div class="mx-auto max-w-6xl">
+    <SectionHeader eyebrow="Out in the open" title="The Garden">
+      {/* tree */}
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-5M9 16a4.5 4.5 0 0 1-1.6-8.4 4.5 4.5 0 0 1 8.9-.7A3.8 3.8 0 0 1 15 16H9z" />
+      </svg>
+    </SectionHeader>
+
+    <Carousel images={gardenPhotos} label="The Old Ship garden photos" class="mt-10" />
+
+    <div class="mx-auto mt-8 max-w-2xl space-y-5 text-center text-lg leading-relaxed text-ink/80">
+      <p>
+        When the sun's out, the garden is the best seat in the house. There's a big lawn, a sunny
+        terrace with plenty of tables, and a covered pergola for when you'd rather have a bit of shade
+        or shelter. Bring the dog, bring the children, and settle in with a pint.
+      </p>
+      <p>
+        It's a lovely spot for a get-together too, from a lazy afternoon with friends to a small
+        celebration. Have a word with us if you're planning something.
+      </p>
+    </div>
+  </div>
+</section>

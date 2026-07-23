@@ -1,0 +1,191 @@
+---
+// Reusable, dependency-free image carousel.
+// Native CSS scroll-snap does the swiping and snapping; a small hoisted
+// <script> adds prev/next, dot indicators and keyboard support as progressive
+// enhancement. With JS off it degrades to a horizontally scrollable, snapping
+// strip of images, all still visible with their alt text.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Slide {
+  src: ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  images: Slide[];
+  label?: string;
+  class?: string;
+  widths?: number[];
+  sizes?: string;
+}
+
+const {
+  images,
+  label = 'Photo gallery',
+  class: className = '',
+  widths = [640, 960, 1400],
+  sizes = '(min-width: 1152px) 1120px, 100vw',
+} = Astro.props;
+
+const count = images.length;
+---
+
+<div
+  class:list={['carousel', className]}
+  data-carousel
+  role="group"
+  aria-roledescription="carousel"
+  aria-label={label}
+>
+  <div class="relative">
+    <div
+      class="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-smooth rounded-2xl [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      data-carousel-track
+      tabindex="0"
+      aria-label={`${label}. ${count} photos. Use the left and right arrow keys to browse.`}
+    >
+      {
+        images.map((image, i) => (
+          <div
+            class="h-64 w-full shrink-0 snap-center sm:h-80"
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${count}`}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              widths={widths}
+              sizes={sizes}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              class="h-full w-full rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10"
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <button
+      type="button"
+      data-carousel-prev
+      aria-label="Previous photo"
+      class="absolute left-2 top-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 p-2 text-navy shadow-md ring-1 ring-navy/10 backdrop-blur-sm transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-carousel-next
+      aria-label="Next photo"
+      class="absolute right-2 top-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 p-2 text-navy shadow-md ring-1 ring-navy/10 backdrop-blur-sm transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="mt-4 items-center justify-center gap-2" data-carousel-dots>
+    {
+      images.map((_, i) => (
+        <button
+          type="button"
+          data-carousel-dot={i}
+          aria-label={`Go to photo ${i + 1}`}
+          class="h-2.5 w-2.5 rounded-full bg-navy/25 transition-colors hover:bg-navy/50 aria-[current=true]:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* Progressive enhancement: controls stay hidden until the script marks the
+     carousel [data-enhanced]. With JS off, only the swipeable track shows. */
+  [data-carousel] [data-carousel-prev],
+  [data-carousel] [data-carousel-next],
+  [data-carousel] [data-carousel-dots] {
+    display: none;
+  }
+  [data-carousel][data-enhanced] [data-carousel-dots] {
+    display: flex;
+  }
+  /* Arrows are a desktop affordance; on mobile people swipe. */
+  @media (min-width: 640px) {
+    [data-carousel][data-enhanced] [data-carousel-prev],
+    [data-carousel][data-enhanced] [data-carousel-next] {
+      display: flex;
+    }
+  }
+  /* Honour reduced-motion for native keyboard scrolling of the track too. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-carousel-track] {
+      scroll-behavior: auto;
+    }
+  }
+</style>
+
+<script>
+  // Minimal, framework-free carousel enhancement, in the Nav.astro style.
+  // Native scroll-snap does the swiping; this only wires up the controls.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function initCarousel(root: Element) {
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+    if (!track) return;
+    const slides = Array.from(track.children) as HTMLElement[];
+    if (!slides.length) return;
+
+    const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+
+    let current = 0;
+
+    const goTo = (index: number) => {
+      const i = Math.max(0, Math.min(index, slides.length - 1));
+      const delta =
+        slides[i].getBoundingClientRect().left - track.getBoundingClientRect().left;
+      track.scrollBy({ left: delta, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    };
+
+    const setCurrent = (index: number) => {
+      current = index;
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', i === index ? 'true' : 'false'));
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === slides.length - 1;
+    };
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) setCurrent(slides.indexOf(entry.target as HTMLElement));
+          });
+        },
+        { root: track, threshold: 0.6 }
+      );
+      slides.forEach((s) => io.observe(s));
+    }
+
+    prev?.addEventListener('click', () => goTo(current - 1));
+    next?.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    root.addEventListener('keydown', (e) => {
+      const ev = e as KeyboardEvent;
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); goTo(current - 1); }
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); goTo(current + 1); }
+    });
+
+    setCurrent(0);
+    root.setAttribute('data-enhanced', '');
+  }
+
+  document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+</script>
