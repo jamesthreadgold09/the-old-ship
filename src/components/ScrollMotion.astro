@@ -1,0 +1,91 @@
+---
+// Single, framework-free motion controller (in the Carousel.astro style):
+// scroll reveals with stagger, a nav shadow on scroll, and a subtle parallax.
+// Included once from Layout.astro so it runs globally. All reveal and parallax
+// work is skipped entirely under prefers-reduced-motion; the reveal-hiding CSS
+// also requires html.motion, so JavaScript-off visitors never see hidden content.
+---
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Nav gains a soft shadow once scrolled. This is a plain affordance (a shadow
+  // fading in), so it runs regardless of the motion preference.
+  const nav = document.querySelector('[data-nav]');
+  if (nav) {
+    let navTicking = false;
+    const updateNav = () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 8);
+      navTicking = false;
+    };
+    updateNav();
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!navTicking) {
+          navTicking = true;
+          window.requestAnimationFrame(updateNav);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  if (!reduce) {
+    // Stagger: direct [data-reveal] children of a [data-reveal-group] get an
+    // incremental delay so grids and lists cascade in.
+    document.querySelectorAll('[data-reveal-group]').forEach((group) => {
+      group.querySelectorAll(':scope > [data-reveal]').forEach((el, i) => {
+        (el as HTMLElement).style.setProperty('--reveal-delay', `${i * 110}ms`);
+      });
+    });
+
+    // Reveal each element once, when it scrolls into view.
+    const reveals = document.querySelectorAll('[data-reveal]');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+      );
+      reveals.forEach((el) => io.observe(el));
+    } else {
+      reveals.forEach((el) => el.classList.add('is-visible'));
+    }
+
+    // Subtle parallax: translate [data-parallax] a small fraction of scroll,
+    // clamped so it never drifts past its wrapper's overflow buffer.
+    const layers = Array.from(document.querySelectorAll('[data-parallax]')) as HTMLElement[];
+    if (layers.length) {
+      let ticking = false;
+      const update = () => {
+        const vh = window.innerHeight;
+        for (const el of layers) {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax || '0.12');
+          const center = rect.top + rect.height / 2;
+          const raw = (center - vh / 2) * -factor;
+          const max = rect.height * 0.08;
+          const shift = Math.max(-max, Math.min(max, raw));
+          el.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
+        }
+        ticking = false;
+      };
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+      };
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    }
+  }
+</script>

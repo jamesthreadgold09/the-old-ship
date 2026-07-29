@@ -6,7 +6,7 @@ import SectionHeader from './SectionHeader.astro';
 import board1 from '../assets/photos/menu-board-1.jpg';
 import board2 from '../assets/photos/menu-board-2.jpg';
 import board3 from '../assets/photos/menu-board-3.jpg';
-import { PHONE_HREF, PHONE_DISPLAY } from '../lib/site';
+import { PHONE_HREF, PHONE_DISPLAY, KITCHEN_HOURS } from '../lib/site';
 
 const boards = [
   { img: board1, alt: "A chalkboard lunch menu at The Old Ship listing ham egg and chips, quiche, ploughman's, pork pie and made-to-order sandwiches" },
@@ -15,21 +15,21 @@ const boards = [
 ];
 
 const reliables = [
-  { title: 'Freshly made sandwiches', note: 'Usually always on' },
-  { title: 'Friday fish & chips', note: 'Proper, every Friday' },
-  { title: 'Sunday roast', note: 'Every Sunday · booking recommended' },
+  { title: 'Freshly made sandwiches', note: 'Usually on', feature: false },
+  { title: 'Friday fish & chips', note: 'Proper, every Friday', feature: false },
+  { title: 'Sunday roast', note: 'Every Sunday · book ahead, they go quickly', feature: true },
 ];
 ---
 
-<section id="food" class="bg-paper px-5 py-20 sm:px-6 sm:py-24">
-  <div class="mx-auto max-w-6xl">
+<section id="food" class="grain bg-paper px-5 py-20 sm:px-6 sm:py-24">
+  <div class="relative z-[1] mx-auto max-w-6xl">
     <SectionHeader eyebrow="From the daily board" title="Food">
       {/* crossed spoon & fork */}
       <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M17 3c-1.5 0-2.5 1.8-2.5 4.5S15.5 12 17 12s2.5-1.8 2.5-4.5S18.5 3 17 3zM17 12v9" />
       </svg>
     </SectionHeader>
-    <div class="mx-auto max-w-2xl text-center">
+    <div data-reveal class="mx-auto max-w-2xl text-center">
       <p class="mt-6 font-serif text-3xl italic text-navy">No fixed menu, and that's the point.</p>
       <p class="mt-4 text-lg leading-relaxed text-ink/80">
         Every morning we chalk up the day's board, cooked from the freshest ingredients we can get our
@@ -38,19 +38,25 @@ const reliables = [
     </div>
 
     {/* Prominent food-times callout so nobody turns up at 7pm expecting dinner */}
-    <div class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl border-t-2 border-gold bg-navy px-6 py-6 text-center text-white shadow-lg shadow-navy/20">
+    <div data-reveal class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl border-t-2 border-gold bg-navy px-6 py-6 text-center text-white shadow-soft">
       <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-light">Kitchen hours</span>
-      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, 12–2:30pm</p>
+      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, {KITCHEN_HOURS.label}</p>
       <p class="text-sm text-white/80">The bar stays open into the evening, but the kitchen is lunchtime only.</p>
     </div>
 
     {/* Reliable anchors */}
-    <div class="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
+    <div data-reveal-group class="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
       {
         reliables.map((r) => (
-          <div class="rounded-xl border border-navy/15 bg-white px-5 py-6 text-center">
+          <div
+            data-reveal
+            class:list={[
+              'rounded-xl border border-navy/15 bg-white px-5 py-6 text-center',
+              r.feature && 'border-t-2 border-t-gold shadow-card',
+            ]}
+          >
             <p class="font-serif text-2xl font-semibold text-navy">{r.title}</p>
-            <p class="mt-1 text-sm text-ink/60">{r.note}</p>
+            <p class="mt-1 text-sm text-ink/80">{r.note}</p>
           </div>
         ))
       }
@@ -58,35 +64,41 @@ const reliables = [
 
     {/* Illustrative sample gallery */}
     <div class="mt-14">
-      <div class="grid gap-4 sm:grid-cols-3">
+      <div data-reveal-group class="grid gap-4 sm:grid-cols-3">
         {
           boards.map((b) => (
-            <Image
-              src={b.img}
-              alt={b.alt}
-              widths={[360, 560, 800]}
-              sizes="(min-width: 640px) 33vw, 100vw"
-              loading="lazy"
-              class="w-full rounded-xl object-cover shadow-md shadow-navy/10 ring-1 ring-navy/10"
-            />
+            <div data-reveal class="overflow-hidden rounded-xl shadow-card ring-1 ring-navy/10">
+              <Image
+                src={b.img}
+                alt={b.alt}
+                widths={[360, 560, 800]}
+                sizes="(min-width: 640px) 33vw, 100vw"
+                loading="lazy"
+                class="w-full object-cover transition duration-500 motion-safe:hover:scale-[1.03]"
+              />
+            </div>
           ))
         }
       </div>
-      <p class="mt-4 text-center text-sm italic text-ink/55">
+      <p data-reveal class="mt-4 text-center text-sm italic text-ink/70">
         A taste of what comes off the board. For illustration only, not today's menu.
       </p>
     </div>
 
     {/* CTA */}
-    <div class="mx-auto mt-12 max-w-2xl text-center">
+    <div data-reveal class="mx-auto mt-12 max-w-2xl text-center">
       <p class="text-lg text-ink/80">
         Want to know what's on the board today? Give us a ring or just pop in.
       </p>
+      <p class="mt-3 text-sm text-ink/70">
+        Got an allergy or a dietary need? Tell us when you book or order and we'll talk you
+        through the board.
+      </p>
       <a
         href={PHONE_HREF}
-        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
+        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-navy-soft motion-safe:hover:-translate-y-0.5"
       >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
         </svg>
         Call us · {PHONE_DISPLAY}

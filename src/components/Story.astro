@@ -14,17 +14,19 @@ import storyImg from '../assets/photos/story-interior.jpg';
       </svg>
     </SectionHeader>
 
-    <div class="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-      <Image
-        src={storyImg}
-        alt="A snug corner of The Old Ship: a low beam painted 'Duck or Grouse', a cushioned window seat looking onto the garden, and a worn oak table set for a chat"
-        widths={[480, 768, 1100]}
-        sizes="(min-width: 1024px) 50vw, 100vw"
-        loading="lazy"
-        class="mx-auto max-h-[34rem] w-full rounded-2xl object-cover object-top shadow-lg shadow-navy/10 ring-1 ring-navy/10"
-      />
+    <div data-reveal-group class="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div data-reveal class="mx-auto w-full overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10">
+        <Image
+          src={storyImg}
+          alt="A snug corner of The Old Ship: a low beam painted 'Duck or Grouse', a cushioned window seat looking onto the garden, and a worn oak table set for a chat"
+          widths={[480, 768, 1100]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="lazy"
+          class="max-h-[34rem] w-full object-cover object-top transition duration-500 motion-safe:hover:scale-[1.03]"
+        />
+      </div>
 
-      <div class="space-y-5 text-lg leading-relaxed text-ink/80">
+      <div data-reveal class="space-y-5 text-lg leading-relaxed text-ink/80">
         <p>
           Tucked just off the Marlow Road in the village of Cadmore End, The Old Ship is the sort of
           pub England does best: low beams, a warm welcome and no airs about it. There's been an inn

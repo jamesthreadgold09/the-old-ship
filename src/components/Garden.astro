@@ -29,8 +29,8 @@ const gardenPhotos = [
 ];
 ---
 
-<section id="garden" class="bg-paper px-5 py-20 sm:px-6 sm:py-24">
-  <div class="mx-auto max-w-6xl">
+<section id="garden" class="grain bg-paper px-5 py-20 sm:px-6 sm:py-24">
+  <div class="relative z-[1] mx-auto max-w-6xl">
     <SectionHeader eyebrow="Out in the open" title="The Garden">
       {/* tree */}
       <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -38,9 +38,11 @@ const gardenPhotos = [
       </svg>
     </SectionHeader>
 
-    <Carousel images={gardenPhotos} label="The Old Ship garden photos" class="mt-10" />
+    <div data-reveal class="mt-10">
+      <Carousel images={gardenPhotos} label="The Old Ship garden photos" />
+    </div>
 
-    <div class="mx-auto mt-8 max-w-2xl space-y-5 text-center text-lg leading-relaxed text-ink/80">
+    <div data-reveal class="mx-auto mt-8 max-w-2xl space-y-5 text-center text-lg leading-relaxed text-ink/80">
       <p>
         When the sun's out, the garden is the best seat in the house. There's a big lawn, a sunny
         terrace with plenty of tables, and a covered pergola for when you'd rather have a bit of shade

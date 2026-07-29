@@ -1,0 +1,13 @@
+{
+  "name": "The Old Ship",
+  "short_name": "Old Ship",
+  "description": "A village free house in Cadmore End, serving since 1637.",
+  "theme_color": "#1b3a5b",
+  "background_color": "#1b3a5b",
+  "display": "browser",
+  "icons": [
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}

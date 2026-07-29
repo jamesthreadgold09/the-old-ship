@@ -12,18 +12,10 @@ import {
   EMAIL_HREF,
   DIRECTIONS_HREF,
   MAP_EMBED_SRC,
+  BAR_HOURS,
+  KITCHEN_HOURS,
+  FACILITIES,
 } from '../lib/site';
-
-const barHours = [
-  { days: 'Monday–Thursday', time: '11am–3pm, 5–11pm' },
-  { days: 'Friday–Sunday', time: '11am–11pm' },
-];
-const facilities = [
-  'Dog friendly',
-  'Large garden with plenty of seating',
-  'Step-free access & accessible toilets',
-  'Brand-new car park',
-];
 ---
 
 <section id="visit" class="bg-white px-5 py-20 sm:px-6 sm:py-24">
@@ -36,24 +28,28 @@ const facilities = [
       </svg>
     </SectionHeader>
 
-    <Image
-      src={visitImg}
-      alt="The Old Ship's garden on a sunny day: people gathered under the timber pergola, parasols and bistro tables on the lawn, a stone sphere water feature and the pub beyond"
-      widths={[640, 960, 1400]}
-      sizes="100vw"
-      loading="lazy"
-      class="mt-10 h-56 w-full rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10 sm:h-72"
-    />
+    <div data-reveal class="relative mt-10 h-56 overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10 sm:h-72">
+      <div data-parallax="0.1" class="absolute inset-x-0 -top-[12%] h-[124%]">
+        <Image
+          src={visitImg}
+          alt="The Old Ship's garden on a sunny day: people gathered under the timber pergola, parasols and bistro tables on the lawn, a stone sphere water feature and the pub beyond"
+          widths={[640, 960, 1400]}
+          sizes="(min-width: 1152px) 1120px, 100vw"
+          loading="lazy"
+          class="h-full w-full object-cover transition duration-500 motion-safe:hover:scale-[1.03]"
+        />
+      </div>
+    </div>
 
-    <div class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
+    <div data-reveal-group class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
       {/* Details */}
-      <div>
+      <div data-reveal>
         <p class="font-serif text-2xl font-semibold text-ink">The Old Ship</p>
         <p class="mt-2 text-ink/75">{ADDRESS_LINE}</p>
         <p class="mt-3 text-ink/75">
-          <a href={PHONE_HREF} class="font-medium text-navy hover:underline">{PHONE_DISPLAY}</a>
+          <a href={PHONE_HREF} class="font-medium text-navy link-gold">{PHONE_DISPLAY}</a>
           <span class="text-ink/30"> · </span>
-          <a href={EMAIL_HREF} class="font-medium text-navy hover:underline">{EMAIL}</a>
+          <a href={EMAIL_HREF} class="font-medium text-navy link-gold">{EMAIL}</a>
         </p>
 
         {/* Hours: bar and kitchen kept clearly separate */}
@@ -62,10 +58,10 @@ const facilities = [
             <p class="text-xs font-medium uppercase tracking-[0.22em] text-navy">Bar</p>
             <dl class="mt-3 space-y-2 text-sm">
               {
-                barHours.map((h) => (
+                BAR_HOURS.map((h) => (
                   <div>
-                    <dt class="font-medium text-ink">{h.days}</dt>
-                    <dd class="text-ink/70">{h.time}</dd>
+                    <dt class="font-medium text-ink">{h.daysLabel}</dt>
+                    <dd class="text-ink/80">{h.timeLabel}</dd>
                   </div>
                 ))
               }
@@ -75,19 +71,19 @@ const facilities = [
             <p class="text-xs font-medium uppercase tracking-[0.22em] text-navy">Kitchen (food served)</p>
             <dl class="mt-3 space-y-2 text-sm">
               <div>
-                <dt class="font-medium text-ink">Every day</dt>
-                <dd class="text-ink/70">12–2:30pm</dd>
+                <dt class="font-medium text-ink">{KITCHEN_HOURS.daysLabel}</dt>
+                <dd class="text-ink/80">{KITCHEN_HOURS.label}</dd>
               </div>
             </dl>
-            <p class="mt-3 text-xs italic text-ink/55">Lunchtime only. The bar is open evenings.</p>
+            <p class="mt-3 text-xs italic text-ink/70">Lunchtime only. The bar is open evenings.</p>
           </div>
         </div>
 
         {/* Facilities */}
-        <p class="mt-8 text-xs font-medium uppercase tracking-[0.28em] text-ink/50">Good to know</p>
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.28em] text-ink/75">Good to know</p>
         <ul class="mt-3 flex flex-wrap gap-2">
           {
-            facilities.map((f) => (
+            FACILITIES.map((f) => (
               <li class="rounded-full border border-navy/15 bg-mist px-4 py-1.5 text-sm text-navy">{f}</li>
             ))
           }
@@ -97,9 +93,9 @@ const facilities = [
           href={DIRECTIONS_HREF}
           target="_blank"
           rel="noopener"
-          class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
+          class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-navy-soft motion-safe:hover:-translate-y-0.5"
         >
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" />
             <circle cx="12" cy="10" r="2.5" />
           </svg>
@@ -108,7 +104,7 @@ const facilities = [
       </div>
 
       {/* Map */}
-      <div class="overflow-hidden rounded-2xl ring-1 ring-navy/15 shadow-lg shadow-navy/10">
+      <div data-reveal class="overflow-hidden rounded-2xl ring-1 ring-navy/15 shadow-soft">
         <iframe
           src={MAP_EMBED_SRC}
           title="Map showing The Old Ship, Cadmore End"

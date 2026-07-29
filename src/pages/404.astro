@@ -1,0 +1,41 @@
+---
+// Branded 404. Astro emits this as dist/404.html, which GitHub Pages serves
+// automatically for unknown paths, keeping visitors inside the navy+gold world
+// with a clear way back.
+import Layout from '../layouts/Layout.astro';
+import { PHONE_HREF, PHONE_DISPLAY } from '../lib/site';
+
+const homeHref = import.meta.env.BASE_URL;
+---
+
+<Layout title="Page not found | The Old Ship">
+  <main id="main" class="dash-texture relative isolate flex min-h-[80vh] items-center bg-navy-deep px-5 py-20 text-center sm:px-6">
+    <div class="mx-auto max-w-xl">
+      <p class="flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-light">
+        <span class="h-px w-8 bg-gold-light/70"></span>
+        Est. 1637
+        <span class="h-px w-8 bg-gold-light/70"></span>
+      </p>
+      <h1 class="mt-5 font-serif text-5xl font-semibold text-white sm:text-6xl">Nothing on this table</h1>
+      <p class="mx-auto mt-4 max-w-md text-lg text-white/85">
+        We couldn't find the page you were after. It may have moved, or the link might be a little out
+        of date. Let's get you back to the pub.
+      </p>
+
+      <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a
+          href={homeHref}
+          class="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-navy shadow-lg shadow-navy-deep/30 transition-colors hover:bg-mist sm:w-auto"
+        >
+          Back to the pub
+        </a>
+        <a
+          href={PHONE_HREF}
+          class="inline-flex w-full items-center justify-center rounded-full border border-gold-light/60 px-6 py-3 text-base font-medium text-white transition-colors hover:border-gold-light hover:bg-white/10 sm:w-auto"
+        >
+          Call us · {PHONE_DISPLAY}
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,21 +1,25 @@
 ---
-// Shared section header (King's Head feel): a small gold icon flourish framed by
-// gold hairlines, an uppercase gold eyebrow, and an elegant Cormorant heading.
-// Pass the icon via the default slot (an inline SVG).
+// Shared section header: a small gold icon flourish framed by gold hairlines, an
+// uppercase gold eyebrow, and an elegant Cormorant heading. Pass the icon via the
+// default slot (an inline SVG); it is decorative and hidden from assistive tech.
 interface Props {
   eyebrow: string;
   title: string;
   tone?: 'light' | 'dark'; // 'dark' = on navy bands (light text)
+  align?: 'center' | 'left'; // 'left' for two-column sections (e.g. Drinks)
 }
-const { eyebrow, title, tone = 'light' } = Astro.props;
+const { eyebrow, title, tone = 'light', align = 'center' } = Astro.props;
 const headingColor = tone === 'dark' ? 'text-white' : 'text-navy';
-const eyebrowColor = tone === 'dark' ? 'text-gold-light' : 'text-gold';
+// Label text needs AA contrast, so use the darker gold-ink on light grounds and
+// gold-light (which passes on navy) on dark grounds.
+const eyebrowColor = tone === 'dark' ? 'text-gold-light' : 'text-gold-ink';
+const centered = align === 'center';
 ---
 
-<div class="mx-auto max-w-2xl text-center">
-  <div class="flex items-center justify-center gap-3 text-gold">
-    <span class="hairline"></span>
-    <span class:list={[tone === 'dark' && 'text-gold-light']}>
+<div data-reveal class:list={['max-w-2xl', centered ? 'mx-auto text-center' : 'text-left']}>
+  <div class:list={['flex items-center gap-3 text-gold', centered && 'justify-center']}>
+    {centered && <span class="hairline"></span>}
+    <span class:list={[tone === 'dark' && 'text-gold-light']} aria-hidden="true">
       <slot />
     </span>
     <span class="hairline"></span>

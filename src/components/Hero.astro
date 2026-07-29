@@ -1,82 +1,109 @@
 ---
-// Hero: full-bleed background photo with a legible scrim and centred white
-// content (name, "since 1637" tagline, open snapshot, and two primary actions).
+// Hero: a two-column split. The pub photograph sits clean and fully visible on
+// one side (framed with a fine keyline and a gold seam); the name, tagline, live
+// open-status and actions sit on a cream panel on the other, in dark text (high
+// contrast, no overlay). On mobile it stacks: photo band on top, panel below.
+// The photo gets a slow settle-in zoom and a subtle parallax; the panel content
+// reveals in a stagger.
 import { Image } from 'astro:assets';
 import heroExterior from '../assets/photos/hero-exterior.jpg';
-import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF } from '../lib/site';
+import OpenStatus from './OpenStatus.astro';
+import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF, KITCHEN_HOURS } from '../lib/site';
 ---
 
-<section id="home" class="relative isolate flex min-h-[88vh] items-center overflow-hidden">
-  {/* Full-bleed hero photograph */}
-  <Image
-    src={heroExterior}
-    alt="The Old Ship free house, the whitewashed 17th-century pub in Cadmore End, with its painted sign, under a blue sky"
-    widths={[640, 960, 1280, 1920, 2200]}
-    sizes="100vw"
-    loading="eager"
-    fetchpriority="high"
-    class="absolute inset-0 -z-10 h-full w-full object-cover"
-  />
-
-  {/* legibility scrim */}
-  <div
-    class="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/85 via-navy-deep/45 to-navy-deep/65"
-    aria-hidden="true"
-  >
-  </div>
-
-  <div class="mx-auto w-full max-w-3xl px-5 py-20 text-center sm:px-6">
-    <p class="mb-4 flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-light">
-      <span class="h-px w-8 bg-gold-light/70"></span>
-      Welcome to
-      <span class="h-px w-8 bg-gold-light/70"></span>
-    </p>
-
-    <h1 class="font-serif text-6xl font-semibold leading-[0.95] text-white sm:text-7xl md:text-8xl">
-      The Old Ship
-    </h1>
-
-    <p class="mx-auto mt-5 font-serif text-2xl italic text-white/95 sm:text-3xl">
-      Serving Cadmore End since 1637
-    </p>
-
-    <p class="mx-auto mt-4 max-w-xl text-base text-white/85 sm:text-lg">
-      A proper village free house in the Buckinghamshire hills.
-    </p>
-
-    {/* Open snapshot */}
-    <div class="mx-auto mt-8 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-xl bg-white/10 px-4 py-3 text-sm text-white ring-1 ring-white/20 backdrop-blur-sm">
-      <span class="inline-flex items-center gap-2 font-medium">
-        <span class="h-2 w-2 rounded-full bg-gold-light"></span>
-        Kitchen 12–2:30pm, every day
-      </span>
-      <span class="hidden text-white/40 sm:inline">·</span>
-      <span class="text-white/80">Bar open into the evening</span>
+<section id="home" class="relative isolate">
+  <div class="grid min-h-[86vh] lg:grid-cols-2">
+    {/* Photo column: clean, fully visible, with a zoom/parallax buffer */}
+    <div class="relative h-[46vh] overflow-hidden lg:h-auto">
+      <div data-parallax="0.12" class="absolute inset-x-0 -top-[10%] h-[120%]">
+        <Image
+          src={heroExterior}
+          alt="The Old Ship free house, the whitewashed 17th-century pub in Cadmore End, with its painted sign, under a blue sky"
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          quality={70}
+          class="hero-photo h-full w-full object-cover"
+        />
+      </div>
+      {/* fine inner keyline, so the photo reads as a framed plate */}
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-navy-deep/10"></div>
+      {/* gold seam hairline: vertical on the desktop boundary, horizontal at the
+          photo's bottom edge on mobile (where the halves stack) */}
+      <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden w-px bg-gold/45 lg:block"></div>
+      <div aria-hidden="true" class="absolute inset-x-0 bottom-0 z-10 h-px bg-gold/45 lg:hidden"></div>
     </div>
 
-    {/* Primary actions */}
-    <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-      <a
-        href={PHONE_HREF}
-        class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-navy shadow-lg shadow-navy-deep/30 transition-colors hover:bg-mist sm:w-auto"
-      >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
-        </svg>
-        Call to Book · {PHONE_DISPLAY}
-      </a>
-      <a
-        href={DIRECTIONS_HREF}
-        target="_blank"
-        rel="noopener"
-        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold-light/60 px-6 py-3 text-base font-medium text-white transition-colors hover:border-gold-light hover:bg-white/10 sm:w-auto"
-      >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" />
-          <circle cx="12" cy="10" r="2.5" />
-        </svg>
-        Get Directions
-      </a>
+    {/* Content panel (slightly bottom-weighted padding so the stack sits optically centred) */}
+    <div class="grain relative flex items-center bg-paper px-6 py-16 sm:px-10 lg:px-16 lg:pb-20 lg:pt-28">
+      <div data-reveal-group class="relative z-[1] w-full max-w-lg">
+        <p data-reveal class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.32em] text-gold-ink">
+          <span class="h-0.5 w-12 rounded-full bg-gold-ink/80"></span>
+          Welcome to
+        </p>
+
+        <h1 data-reveal class="mt-5 font-serif text-6xl font-semibold leading-[0.88] text-navy sm:text-7xl">
+          The Old Ship
+        </h1>
+
+        <p data-reveal class="mt-4 font-serif text-3xl italic text-ink sm:text-4xl">
+          Serving Cadmore End since <span class="text-gold-ink">1637</span>
+        </p>
+
+        <p data-reveal class="mt-3 max-w-md text-base leading-relaxed text-ink/80 sm:text-lg">
+          A proper village free house in the Buckinghamshire hills.
+        </p>
+
+        {/* Open snapshot: live bar status plus the fixed lunchtime kitchen hours */}
+        <div
+          data-reveal
+          class="mt-10 inline-flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl bg-white px-4 py-3 text-sm text-ink shadow-card ring-1 ring-navy/10"
+        >
+          <OpenStatus tone="light" />
+          <span class="hidden text-navy/25 sm:inline">·</span>
+          <span class="inline-flex items-center gap-2 text-ink/80">
+            Kitchen {KITCHEN_HOURS.label}, every day
+          </span>
+        </div>
+
+        {/* Primary actions (shrink-wrapped so the pair reads as a group) */}
+        <div data-reveal class="mt-8 flex flex-col gap-3 sm:w-fit sm:flex-row sm:flex-wrap">
+          <a
+            href={PHONE_HREF}
+            class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-navy px-6 py-3 text-base font-semibold text-white shadow-soft ring-1 ring-transparent transition hover:bg-navy-soft hover:ring-gold/40 motion-safe:hover:-translate-y-0.5 sm:w-auto"
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
+            </svg>
+            Call to Book · {PHONE_DISPLAY}
+          </a>
+          <a
+            href={DIRECTIONS_HREF}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-navy/40 px-6 py-3 text-base font-medium text-navy transition hover:border-gold hover:bg-mist motion-safe:hover:-translate-y-0.5 sm:w-auto"
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+            Get Directions
+          </a>
+        </div>
+
+        {/* Scroll cue: a gently bobbing down-chevron that scrolls to the first section */}
+        <a
+          data-reveal
+          href="#story"
+          aria-label="Scroll down to explore"
+          class="scroll-cue mt-10 inline-flex text-gold-ink transition-colors hover:text-navy"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
 </section>

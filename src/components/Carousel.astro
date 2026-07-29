@@ -61,7 +61,7 @@ const count = images.length;
               loading="lazy"
               decoding="async"
               draggable={false}
-              class="h-full w-full rounded-2xl object-cover shadow-lg shadow-navy/10 ring-1 ring-navy/10"
+              class="h-full w-full rounded-2xl object-cover shadow-soft ring-1 ring-navy/10"
             />
           </div>
         ))
@@ -97,8 +97,10 @@ const count = images.length;
           type="button"
           data-carousel-dot={i}
           aria-label={`Go to photo ${i + 1}`}
-          class="h-2.5 w-2.5 rounded-full bg-navy/25 transition-colors hover:bg-navy/50 aria-[current=true]:bg-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-        />
+          class="group grid h-6 w-6 place-items-center rounded-full"
+        >
+          <span class="h-2.5 w-2.5 rounded-full bg-navy/30 transition-colors group-hover:bg-navy/50 group-aria-[current=true]:bg-gold" />
+        </button>
       ))
     }
   </div>

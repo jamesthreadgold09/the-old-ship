@@ -31,8 +31,12 @@ jobs:
 
       - name: Build Astro site
         uses: withastro/action@v3
+        with:
+          node-version: 22
         # withastro/action installs deps, runs `astro build`, and uploads
         # ./dist as the Pages artifact (respects `base` in astro.config).
+        # At domain go-live, add `env: { PUBLIC_ALLOW_INDEX: 'true' }` here to
+        # allow search indexing (see HANDOVER.md).
 
   deploy:
     needs: build

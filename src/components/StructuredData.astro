@@ -1,0 +1,78 @@
+---
+// JSON-LD structured data for local SEO. Modelled as BarOrPub + Restaurant
+// (pub identity for "pub near me", plus food/reservation features). Every field
+// is sourced from src/lib/site.ts so it can never drift from the visible copy,
+// and all absolute URLs derive from Astro.site + BASE_URL so they flip with the
+// domain. openingHoursSpecification models the BAR (venue-open) hours; the
+// kitchen is lunchtime-only, noted in `description` since schema has no separate
+// kitchen-hours field.
+import {
+  BUSINESS_NAME,
+  PHONE_E164,
+  EMAIL,
+  ADDRESS,
+  GEO,
+  FACEBOOK_URL,
+  FOUNDING_YEAR,
+  BAR_HOURS,
+  KITCHEN_HOURS,
+  FACILITIES,
+} from '../lib/site';
+import { absoluteUrl, siteRoot } from '../lib/urls';
+
+const root = siteRoot(Astro.site).href;
+
+const amenityFeature = FACILITIES.map((name) => ({
+  '@type': 'LocationFeatureSpecification',
+  name,
+  value: true,
+}));
+
+const openingHoursSpecification = BAR_HOURS.flatMap((row) =>
+  row.ranges.map((range) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: row.days,
+    opens: range.opens,
+    closes: range.closes,
+  }))
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['BarOrPub', 'Restaurant'],
+  '@id': `${root}#pub`,
+  name: BUSINESS_NAME,
+  url: root,
+  image: absoluteUrl('og-image.jpg', Astro.site),
+  logo: absoluteUrl('apple-touch-icon.png', Astro.site),
+  telephone: PHONE_E164,
+  email: EMAIL,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: ADDRESS.street,
+    addressLocality: ADDRESS.locality,
+    addressRegion: ADDRESS.region,
+    postalCode: ADDRESS.postcode,
+    addressCountry: ADDRESS.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: GEO.lat,
+    longitude: GEO.lng,
+  },
+  hasMap: 'https://www.google.com/maps?q=The+Old+Ship+Cadmore+End+HP14+3PN',
+  openingHoursSpecification,
+  servesCuisine: 'British',
+  priceRange: '££',
+  foundingDate: FOUNDING_YEAR,
+  acceptsReservations: true,
+  publicAccess: true,
+  isAccessibleForFree: true,
+  paymentAccepted: 'Cash, Credit Card, Debit Card, Contactless',
+  amenityFeature,
+  sameAs: [FACEBOOK_URL],
+  description: `A traditional village free house on the Marlow Road in Cadmore End, serving since ${FOUNDING_YEAR}. Food is served every day ${KITCHEN_HOURS.label}; the bar is open lunch and evening.`,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

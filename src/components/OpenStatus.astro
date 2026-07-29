@@ -1,0 +1,144 @@
+---
+// Live "Open now / Closed" indicator for the BAR, computed client-side in the
+// pub's own local time (Europe/London) so it is correct for a visitor in any
+// timezone. Data comes from the single BAR_HOURS source, so it can never drift
+// from the hours shown elsewhere. With JavaScript off it degrades to an honest,
+// compact static summary. The owner can force a "Closed today" state for a
+// one-off closure via SPECIAL_NOTICE in site.ts.
+import { BAR_HOURS, SPECIAL_NOTICE } from '../lib/site';
+
+interface Props {
+  fallback?: string;
+  class?: string;
+  tone?: 'dark' | 'light'; // 'light' = on a cream/white panel (dark text)
+}
+const { fallback = 'Bar open lunch and evening', class: className = '', tone = 'dark' } = Astro.props;
+
+const fallbackColor = tone === 'light' ? 'text-ink/80' : 'text-white/85';
+
+// Only the day names + 24h ranges are needed by the script.
+const barData = BAR_HOURS.map((r) => ({ days: r.days, ranges: r.ranges }));
+---
+
+<span
+  class:list={['open-status inline-flex items-center gap-2', className]}
+  data-open-status
+  data-tone={tone}
+  data-bar={JSON.stringify(barData)}
+  data-notice={JSON.stringify(SPECIAL_NOTICE)}
+>
+  <span class:list={[fallbackColor]} data-open-label>{fallback}</span>
+</span>
+
+<script>
+  type Range = { opens: string; closes: string };
+  type Row = { days: string[]; ranges: Range[] };
+
+  const DAY_NAMES = [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+  ];
+
+  const toMin = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  const fmtTime = (t: string) => {
+    let [h, m] = t.split(':').map(Number);
+    const ap = h < 12 ? 'am' : 'pm';
+    let hr = h % 12;
+    if (hr === 0) hr = 12;
+    return m ? `${hr}.${String(m).padStart(2, '0')}${ap}` : `${hr}${ap}`;
+  };
+
+  // Current weekday + minutes-into-day in Europe/London, independent of the
+  // visitor's own timezone.
+  function londonNow() {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London',
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+    const weekday = parts.find((p) => p.type === 'weekday')!.value;
+    let hh = parts.find((p) => p.type === 'hour')!.value;
+    const mm = parts.find((p) => p.type === 'minute')!.value;
+    if (hh === '24') hh = '00'; // some engines report 24 at midnight
+    return { dayIndex: DAY_NAMES.indexOf(weekday), minutes: parseInt(hh, 10) * 60 + parseInt(mm, 10) };
+  }
+
+  const rangesForDay = (rows: Row[], dayName: string) =>
+    rows.filter((r) => r.days.includes(dayName)).flatMap((r) => r.ranges);
+
+  function init(el: HTMLElement) {
+    let rows: Row[];
+    let notice: { closed: boolean; message: string };
+    try {
+      rows = JSON.parse(el.dataset.bar || '[]');
+      notice = JSON.parse(el.dataset.notice || '{"closed":false,"message":""}');
+    } catch {
+      return; // keep the static fallback
+    }
+
+    const label = el.querySelector<HTMLElement>('[data-open-label]');
+    if (!label) return;
+
+    const light = el.dataset.tone === 'light';
+    const openDot = light ? 'bg-emerald-600' : 'bg-emerald-400';
+    const closedDot = light ? 'bg-navy/40' : 'bg-white/40';
+    const textColor = light ? 'text-ink' : 'text-white';
+
+    const render = (open: boolean, text: string) => {
+      el.innerHTML = '';
+      const dot = document.createElement('span');
+      dot.className = `h-2 w-2 rounded-full ${open ? openDot : closedDot}`;
+      const span = document.createElement('span');
+      span.className = `font-medium ${textColor}`;
+      span.textContent = text;
+      el.prepend(span);
+      el.prepend(dot);
+    };
+
+    if (notice.closed) {
+      render(false, notice.message ? `Closed today · ${notice.message}` : 'Closed today');
+      return;
+    }
+
+    const now = londonNow();
+    if (now.dayIndex < 0) return; // parsing failed; keep fallback
+
+    const today = rangesForDay(rows, DAY_NAMES[now.dayIndex]);
+    const openNow = today.some((r) => now.minutes >= toMin(r.opens) && now.minutes < toMin(r.closes));
+
+    if (openNow) {
+      render(true, 'Open now');
+      return;
+    }
+
+    // Find the next opening within the coming week.
+    let next: { offset: number; opens: string } | null = null;
+    for (let offset = 0; offset < 8 && !next; offset++) {
+      const day = DAY_NAMES[(now.dayIndex + offset) % 7];
+      const opens = rangesForDay(rows, day)
+        .map((r) => r.opens)
+        .filter((o) => offset > 0 || toMin(o) > now.minutes)
+        .sort((a, b) => toMin(a) - toMin(b));
+      if (opens.length) next = { offset, opens: opens[0] };
+    }
+
+    if (next) {
+      const when =
+        next.offset === 0
+          ? `opens ${fmtTime(next.opens)}`
+          : next.offset === 1
+            ? `opens tomorrow ${fmtTime(next.opens)}`
+            : `opens ${DAY_NAMES[(now.dayIndex + next.offset) % 7]} ${fmtTime(next.opens)}`;
+      render(false, `Closed now · ${when}`);
+    } else {
+      render(false, 'Closed now');
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-open-status]').forEach(init);
+</script>
