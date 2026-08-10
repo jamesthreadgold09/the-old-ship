@@ -34,9 +34,12 @@ jobs:
         with:
           node-version: 22
         # withastro/action installs deps, runs `astro build`, and uploads
-        # ./dist as the Pages artifact (respects `base` in astro.config).
-        # At domain go-live, add `env: { PUBLIC_ALLOW_INDEX: 'true' }` here to
-        # allow search indexing (see HANDOVER.md).
+        # ./dist as the Pages artifact.
+        env:
+          # The site is on its real domain, so search engines are allowed in.
+          # This drops the `noindex` tag and switches robots.txt to "allow".
+          # Must be the quoted string 'true' (see src/lib/urls.ts).
+          PUBLIC_ALLOW_INDEX: 'true'
 
   deploy:
     needs: build

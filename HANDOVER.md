@@ -6,8 +6,9 @@ developer to follow it.
 
 ## What the website is
 
-- A single page (one long scroll) at [theoldship](https://github.com/) built to be
-  fast and low-maintenance.
+- A single page (one long scroll) at
+  [theoldship1637.co.uk](https://theoldship1637.co.uk) built to be fast and
+  low-maintenance.
 - **You do not need to update it often.** Day-to-day news, events, and photos go on
   **Facebook**, and the site points people there. The website is your shop window:
   who you are, where you are, when you are open, and how to reach you.
@@ -79,9 +80,9 @@ To preview changes on your own computer first, see "Running it locally" below.
 - The site's hidden SEO details (page title, description, the share-image card, and
   a structured "business card" for Google with your address, phone, hours, and the
   1637 founding date) are **all built and ready**.
-- **Indexing is deliberately switched off for now.** While the site sits on a
-  temporary address it is set to `noindex` so Google does not list it under the
-  wrong URL. It gets switched on as part of going live on your real domain (below).
+- **Indexing is switched on**, now that the site is on its own domain. Google is
+  allowed to list it. (Do not expect it to appear instantly: a brand new site
+  usually takes a few days to a few weeks to settle into results.)
 - Your **Google Business Profile** is the single biggest thing for being found
   locally, and it does more for a village pub than the website itself. You can fully
   set it up **now**, except for the website link:
@@ -91,43 +92,69 @@ To preview changes on your own computer first, see "Running it locally" below.
   - Add photos and link your Facebook page.
   - Make sure the name, address, and phone **match the website exactly**
     (The Old Ship / Marlow Road, Cadmore End / 01494 883799).
-  - Add the **website link only once the real domain is live** (see below).
+  - Add the website link: **https://theoldship1637.co.uk**.
 
-## Going live on your own domain
+## Your domain and hosting
 
-When you buy the domain (for example `theoldshipcadmore.co.uk`), here is the exact
-checklist. The site is built so this is a small, safe change.
+The site is live at **https://theoldship1637.co.uk**. The `www.` version works too
+and redirects to it.
 
-1. **Point the code at the new domain.** In `astro.config.mjs`:
-   - set `site:` to your domain, e.g. `site: 'https://theoldshipcadmore.co.uk'`
-   - set `base: '/'` (or delete the `base` line) because the site now lives at the
-     top of its own domain, not in a sub-folder.
-2. **Add a `CNAME` file.** Create `public/CNAME` containing just the bare domain on
-   one line (e.g. `theoldshipcadmore.co.uk`). Without this, GitHub can drop the
-   custom domain on the next deploy.
-3. **Set up DNS at your domain registrar** to point at GitHub Pages (GitHub's guide:
-   "Managing a custom domain for your GitHub Pages site"). Apex domains use A/ALIAS
-   records to GitHub's IPs; a `www` subdomain uses a CNAME record.
-4. **Turn indexing on.** In `.github/workflows/deploy.yml`, add an environment
-   variable to the build so search engines are allowed in:
-   ```yaml
-   - name: Build Astro site
-     uses: withastro/action@v3
-     env:
-       PUBLIC_ALLOW_INDEX: 'true'
-   ```
-   This removes the `noindex`, switches `robots.txt` to "allow", and turns on the
-   sitemap reference.
-5. **In GitHub repo Settings > Pages**, set the custom domain and tick **Enforce
-   HTTPS**.
-6. **Push the changes** and wait for the deploy. Then open the live site and check
-   it loads on the new domain over `https://`.
-7. **Submit to Google.** In Google Search Console, add the new domain as a property
-   and submit `https://yourdomain/sitemap-index.xml`.
-8. **Update Google Business Profile:** add the live website URL to the Website field.
-9. **Optional but recommended:** put the domain behind Cloudflare's free tier for
-   long-term browser caching and basic security headers (GitHub Pages cannot set
-   these itself).
+- The **domain** is registered with **IONOS** (ionos.co.uk). That is the only part
+  with a bill attached: keep the renewal paid, or the site goes offline. Make sure
+  the renewal email address is one you actually read.
+- The **hosting** is GitHub Pages, which is free, and the **HTTPS certificate** is
+  issued and renewed automatically at no cost.
+
+### The DNS settings (for reference)
+
+You should not need to touch these again. They are written down here so that
+whoever holds the domain in future can rebuild them if something is changed by
+accident. In the IONOS control panel: **Domains & SSL** > click the domain > **DNS**.
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| AAAA | `@` | `2606:50c0:8000::153` |
+| AAAA | `@` | `2606:50c0:8001::153` |
+| AAAA | `@` | `2606:50c0:8002::153` |
+| AAAA | `@` | `2606:50c0:8003::153` |
+| CNAME | `www` | `jamesthreadgold09.github.io` |
+
+Notes for anyone setting these up again:
+
+- The four A records are GitHub's own addresses (they publish them under "Managing a
+  custom domain for your GitHub Pages site"). The AAAA records are the same thing for
+  newer IPv6 connections, and are optional: the site works on the A records alone.
+- A freshly registered IONOS domain arrives with one A record and one AAAA record
+  already pointing at an IONOS holding page (an address starting `217.160.`). Edit
+  those two to the first GitHub address of each type, then add the rest as new
+  records. Use the **DNS** record table directly rather than the **Adjust
+  Destination** wizard, which only accepts a single address.
+- **Leave the `MX` records and the `TXT` record beginning `v=spf1` alone.** Those are
+  email, and they are separate from the website: changing the A records does not
+  affect email, but deleting those would stop mail on the domain working.
+- If a record you saved reverts to the old `217.160.` address by itself, the domain is
+  still attached to an IONOS destination. Remove that connection under **Adjust
+  Destination**, then redo the DNS edits.
+- Records have a one hour TTL, so give any change up to an hour to take effect
+  everywhere before assuming it has not worked.
+- The bare domain is also written into the file `public/CNAME` in this project. That
+  file is what tells GitHub the custom domain belongs here, so please do not delete
+  it. In **GitHub repo Settings > Pages** the custom domain should show
+  `theoldship1637.co.uk` with **Enforce HTTPS** ticked.
+
+### Still worth doing
+
+1. **Google Search Console** (free): add `https://theoldship1637.co.uk` as a property
+   and submit `https://theoldship1637.co.uk/sitemap-index.xml`. This tells Google the
+   site exists rather than waiting to be found, and shows you what people search for.
+2. **Google Business Profile:** put `https://theoldship1637.co.uk` in the Website
+   field. This is the single biggest thing for being found locally.
+3. **Optional:** put the domain behind Cloudflare's free tier for faster repeat
+   visits and basic security headers (GitHub Pages cannot set these itself).
 
 ## Running it locally (optional, for previewing)
 
@@ -135,7 +162,7 @@ Node.js 20.3 or newer is required (see `.nvmrc`).
 
 ```bash
 npm install       # once, to set up
-npm run dev       # preview at http://localhost:4321/the-old-ship/
+npm run dev       # preview at http://localhost:4321/
 npm run build     # produce the final site into ./dist
 ```
 

@@ -5,16 +5,11 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // Hosted on GitHub Pages under a project subpath, so `base` must match the repo name.
-  // `site` is the deployed origin; every absolute SEO URL (canonical, Open Graph,
-  // JSON-LD, sitemap, robots) is derived from `site` + `base`, so switching to the
-  // pub's real domain is a two-line change here (see the go-live steps in HANDOVER.md):
-  //   1. set `site` to the real domain
-  //   2. set `base` to '/' (or remove it) for an apex custom domain
-  // Current value is a placeholder personal Pages origin; the site is held out of
-  // search indexes (noindex) until this is the pub's own domain.
-  site: 'https://jamesthreadgold.co.uk',
-  base: '/the-old-ship',
+  // Live on the pub's own domain (GitHub Pages + the custom domain in public/CNAME),
+  // served at the root, so `base` stays at its default '/' and is not set here.
+  // Every absolute SEO URL (canonical, Open Graph, JSON-LD, sitemap, robots) is
+  // derived from `site`, so this is the single place the public origin is defined.
+  site: 'https://theoldship1637.co.uk',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
