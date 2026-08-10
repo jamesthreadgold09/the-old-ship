@@ -141,10 +141,14 @@ Notes for anyone setting these up again:
   Destination**, then redo the DNS edits.
 - Records have a one hour TTL, so give any change up to an hour to take effect
   everywhere before assuming it has not worked.
-- The bare domain is also written into the file `public/CNAME` in this project. That
-  file is what tells GitHub the custom domain belongs here, so please do not delete
-  it. In **GitHub repo Settings > Pages** the custom domain should show
-  `theoldship1637.co.uk` with **Enforce HTTPS** ticked.
+- The custom domain is set in **GitHub repo Settings > Pages**, under **Custom
+  domain**, with **Enforce HTTPS** ticked. That setting is the one that actually
+  matters: because this site publishes through a GitHub Actions workflow rather than
+  from a branch, the `public/CNAME` file alone does **not** configure it. If the
+  domain ever shows "There isn't a GitHub Pages site here", that settings box is the
+  first place to look.
+- The bare domain is also kept in `public/CNAME` in this project, so please do not
+  delete it. It keeps the domain recorded alongside the code.
 
 ### Still worth doing
 
