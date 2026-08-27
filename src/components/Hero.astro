@@ -7,12 +7,13 @@
 // reveals in a stagger.
 import { Image } from 'astro:assets';
 import heroExterior from '../assets/photos/hero-exterior.jpg';
+import heroCompass from '../assets/photos/hero-compass.png';
 import OpenStatus from './OpenStatus.astro';
 import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF, KITCHEN_HOURS } from '../lib/site';
 ---
 
 <section id="home" class="relative isolate">
-  <div class="grid min-h-[86vh] lg:grid-cols-2">
+  <div class="grid min-h-[86vh] lg:grid-cols-[58fr_42fr]">
     {/* Photo column: clean, fully visible, with a zoom/parallax buffer */}
     <div class="relative h-[46vh] overflow-hidden lg:h-auto">
       <div data-parallax="0.12" class="absolute inset-x-0 -top-[10%] h-[120%]">
@@ -20,7 +21,7 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF, KITCHEN_HOURS } from '../li
           src={heroExterior}
           alt="The Old Ship free house, the whitewashed 17th-century pub in Cadmore End, with its painted sign, under a blue sky"
           widths={[640, 960, 1280, 1600]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 58vw, 100vw"
           loading="eager"
           fetchpriority="high"
           quality={70}
@@ -36,7 +37,18 @@ import { PHONE_HREF, PHONE_DISPLAY, DIRECTIONS_HREF, KITCHEN_HOURS } from '../li
     </div>
 
     {/* Content panel (slightly bottom-weighted padding so the stack sits optically centred) */}
-    <div class="grain relative flex items-center bg-paper px-6 py-16 sm:px-10 lg:px-16 lg:pb-20 lg:pt-28">
+    <div class="grain relative flex items-center overflow-hidden bg-paper px-6 py-16 sm:px-10 lg:px-16 lg:pb-20 lg:pt-28">
+      {/* Faint compass rose, sat fully in view and tilted: a quiet "find us" motif,
+          kept low-opacity so it reads as texture, not decoration competing with the text. */}
+      <Image
+        src={heroCompass}
+        alt=""
+        aria-hidden="true"
+        width={300}
+        height={300}
+        loading="lazy"
+        class="pointer-events-none absolute right-4 top-4 z-0 h-32 w-32 rotate-[18deg] opacity-[0.06] sm:right-6 sm:top-6 sm:h-40 sm:w-40 lg:right-8 lg:top-8 lg:h-48 lg:w-48"
+      />
       <div data-reveal-group class="relative z-[1] w-full max-w-lg">
         <p data-reveal class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.32em] text-gold-ink">
           <span class="h-0.5 w-12 rounded-full bg-gold-ink/80"></span>

@@ -3,7 +3,7 @@
 // and facilities.
 import { Image } from 'astro:assets';
 import SectionHeader from './SectionHeader.astro';
-import visitImg from '../assets/photos/visit-exterior.jpg';
+import visitImg from '../assets/photos/visit-evening-5.jpg';
 import {
   ADDRESS_LINE,
   PHONE_HREF,
@@ -28,15 +28,15 @@ import {
       </svg>
     </SectionHeader>
 
-    <div data-reveal class="relative mt-10 h-56 overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10 sm:h-72">
-      <div data-parallax="0.1" class="absolute inset-x-0 -top-[12%] h-[124%]">
+    <div data-reveal class="relative mt-10 aspect-[2048/904] overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10">
+      <div data-parallax="0.1" class="absolute inset-x-0 -top-[3%] h-[106%]">
         <Image
           src={visitImg}
-          alt="The Old Ship's garden on a sunny day: people gathered under the timber pergola, parasols and bistro tables on the lawn, a stone sphere water feature and the pub beyond"
-          widths={[640, 960, 1400]}
+          alt="The Old Ship's whitewashed gables lit up at dusk, with 'The Old Ship, Free House' painted on the wall, a ship weathervane, the compass emblem beside a window, and daffodils along the front bed"
+          widths={[640, 960, 1400, 1800]}
           sizes="(min-width: 1152px) 1120px, 100vw"
           loading="lazy"
-          class="h-full w-full object-cover transition duration-500 motion-safe:hover:scale-[1.03]"
+          class="h-full w-full object-cover object-center transition duration-500 motion-safe:hover:scale-[1.03]"
         />
       </div>
     </div>

@@ -83,9 +83,9 @@ export const KITCHEN_HOURS = {
 
 export const FACILITIES = [
   'Dog friendly',
-  'Large garden with plenty of seating',
-  'Step-free access & accessible toilets',
-  'Brand-new car park',
+  'Walkers & cyclists welcome',
+  'Beer garden & outdoor seating',
+  'Step-free access',
 ];
 
 // One-off closure override for the live "Open now" badge (bank holidays,

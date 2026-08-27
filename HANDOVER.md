@@ -58,6 +58,49 @@ reopen.
 - **The social-share image** (the picture shown when the link is shared on
   Facebook/WhatsApp): `public/og-image.jpg`, 1200 x 630 pixels.
 
+### Changing the food photos
+
+The Food section shows the wide **buffet** photo, then four photos of plated dishes
+(fish and chips, ploughman's, sandwich, Sunday roast). They all live in
+`src/components/Food.astro`.
+
+**To swap one for a better photo:**
+
+1. Put the new photo in `src/assets/photos/` with a **new** name, for example
+   `food-ploughmans-2.jpg`. Give it a different filename rather than overwriting the
+   old one (the build caches images by name).
+2. Near the top of `src/components/Food.astro`, point that import at the new file:
+
+   ```ts
+   import ploughmans from '../assets/photos/food-ploughmans-2.jpg';
+   ```
+
+3. Update the matching `alt` text a little further down so it describes what is
+   actually in the new photo. Alt text is read aloud to blind visitors and used by
+   Google, so keep it accurate.
+
+**To add a fifth or sixth dish photo:** add an import as above, then add another entry
+to the `foodPhotos` list:
+
+```ts
+{ img: pie, alt: 'A steak and ale pie with mash and greens', objectPos: 'object-center' },
+```
+
+**If a photo ends up badly cropped**, that is what `objectPos` is for. The tiles are a
+wide rectangle, so a tall photo has to lose its top and bottom. `object-center` takes
+the middle; `object-[center_62%]` slides the visible window down (higher percentage =
+more of the bottom of the photo, less of the top). Nudge it in steps of about 5% until
+the whole plate is in shot.
+
+- **The example menu board photo** in the same section is the single `boardExample`
+  import at the top of `Food.astro`. Swap it the same way, and update the `alt` text
+  to match the dishes on the new board.
+- **The list of dishes** ("Usually on the board") is `const dishes` in `Food.astro`.
+  Deliberately **no prices**: the blackboard in the pub is the only place those live,
+  so the website can never contradict it.
+- The full-size originals of the food photos are kept in `photo-originals/food/`. That
+  folder stays on your computer and is not published with the site.
+
 ## Writing style
 
 Please keep the warm, plain, local-pub voice, and **do not use em dashes** (the long

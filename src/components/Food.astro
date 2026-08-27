@@ -1,23 +1,64 @@
 ---
-// Food: daily-board philosophy, reliable items, prominent lunch-only food
-// times, and an illustrative sample gallery.
+// Food: daily-board philosophy, prominent lunch-only kitchen times, one example
+// chalkboard alongside what is usually on it, and a gallery of the food itself.
 import { Image } from 'astro:assets';
 import SectionHeader from './SectionHeader.astro';
-import board1 from '../assets/photos/menu-board-1.jpg';
-import board2 from '../assets/photos/menu-board-2.jpg';
-import board3 from '../assets/photos/menu-board-3.jpg';
+import boardExample from '../assets/photos/menu-board-3.jpg';
+import fishAndChips from '../assets/photos/food-fish-and-chips.jpg';
+import ploughmans from '../assets/photos/food-ploughmans.jpg';
+import sandwich from '../assets/photos/food-sandwich.jpg';
+import sundayRoast from '../assets/photos/food-sunday-roast.jpg';
 import { PHONE_HREF, PHONE_DISPLAY, KITCHEN_HOURS } from '../lib/site';
 
-const boards = [
-  { img: board1, alt: "A chalkboard lunch menu at The Old Ship listing ham egg and chips, quiche, ploughman's, pork pie and made-to-order sandwiches" },
-  { img: board2, alt: "A chalkboard lunch menu with roast beef, ploughman's and freshly made sandwiches" },
-  { img: board3, alt: 'A chalkboard lunch menu with beer-battered cod and chips, quiche and ploughman\'s' },
+// What is usually chalked up. No prices here on purpose: the board in the pub is
+// the only place they live, so nothing on the website can go stale or contradict it.
+const dishes = [
+  {
+    title: 'Sunday roast beef',
+    note: 'Every Sunday. Book ahead, they go quickly.',
+  },
+  {
+    title: "Ploughman's",
+    note: 'Artisan cheeses, a portion of pork pie, a selection of salads and bread',
+  },
+  {
+    title: 'Beer-battered fish and chips',
+    note: 'With our own homemade tartare sauce',
+  },
+  {
+    title: 'Sandwiches',
+    note: "Ham & piccalilli, cheese and ploughman's pickle, tuna and cucumber (made to order)",
+  },
+  {
+    title: 'Desserts',
+    note: 'Eton mess, crème brûlée, chocolate brownie with ice cream',
+  },
 ];
 
-const reliables = [
-  { title: 'Freshly made sandwiches', note: 'Usually on', feature: false },
-  { title: 'Friday fish & chips', note: 'Proper, every Friday', feature: false },
-  { title: 'Sunday roast', note: 'Every Sunday · book ahead, they go quickly', feature: true },
+// Photos of the plated dishes. See "Changing the food photos" in HANDOVER.md.
+// `objectPos` sets which part of the photo survives the square-ish crop: most of
+// these plates sit low in frame, so they need nudging down from centre.
+const foodPhotos = [
+  {
+    img: fishAndChips,
+    alt: 'A plate of beer-battered cod with thick-cut chips and a pot of homemade tartare sauce, on a dark wooden table in the bar',
+    objectPos: 'object-center',
+  },
+  {
+    img: ploughmans,
+    alt: "A ploughman's plate: a wedge of pork pie, mature cheddar, coleslaw, sliced tomato, radish, beetroot, celery, carrot and chutney",
+    objectPos: 'object-center',
+  },
+  {
+    img: sandwich,
+    alt: 'A freshly made granary sandwich with a side salad on a garden table, next to a pint of Chiltern ale',
+    objectPos: 'object-center',
+  },
+  {
+    img: sundayRoast,
+    alt: 'A Sunday roast: slices of roast beef with a Yorkshire pudding, roast potatoes, parsnip, carrots, green beans, cauliflower cheese and gravy',
+    objectPos: 'object-center',
+  },
 ];
 ---
 
@@ -32,8 +73,9 @@ const reliables = [
     <div data-reveal class="mx-auto max-w-2xl text-center">
       <p class="mt-6 font-serif text-3xl italic text-navy">No fixed menu, and that's the point.</p>
       <p class="mt-4 text-lg leading-relaxed text-ink/80">
-        Every morning we chalk up the day's board, cooked from the freshest ingredients we can get our
-        hands on.
+        Every morning we chalk up the day's board: classic pub lunches, freshly made to order from
+        the freshest ingredients we can get our hands on, with salads and vegetables often grown in
+        local gardens and allotments.
       </p>
     </div>
 
@@ -44,45 +86,65 @@ const reliables = [
       <p class="text-sm text-white/80">The bar stays open into the evening, but the kitchen is lunchtime only.</p>
     </div>
 
-    {/* Reliable anchors */}
-    <div data-reveal-group class="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
+    {/* One example board alongside what is usually chalked on it */}
+    <div class="mt-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div data-reveal class="lg:order-last">
+        <div class="mx-auto w-full max-w-sm overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10">
+          <Image
+            src={boardExample}
+            alt="A chalkboard lunch menu at The Old Ship listing beer-battered cod and chips, quiche and ploughman's"
+            widths={[420, 660, 900]}
+            sizes="(min-width: 1024px) 384px, 100vw"
+            loading="lazy"
+            class="w-full transition duration-500 motion-safe:hover:scale-[1.03]"
+          />
+        </div>
+        <p class="mx-auto mt-3 max-w-sm text-center text-sm italic text-ink/70">
+          An example of our daily board. Today's will be different.
+        </p>
+      </div>
+
+      <div>
+        <p data-reveal class="text-xs font-medium uppercase tracking-[0.28em] text-ink/75">
+          Usually on the board
+        </p>
+        <ul data-reveal-group class="mt-5 divide-y divide-navy/10 border-y border-navy/10">
+          {
+            dishes.map((d) => (
+              <li data-reveal class="py-4">
+                <p class="font-serif text-xl font-semibold text-navy">{d.title}</p>
+                <p class="mt-1 text-sm leading-relaxed text-ink/80">{d.note}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p data-reveal class="mt-6 rounded-xl border border-navy/15 bg-white px-5 py-4 text-sm leading-relaxed text-ink/80">
+          We don't publish a menu with prices online. Everything is written up on the blackboard in
+          the pub and changes with what's fresh that day. Give us a ring to check what's on before
+          you visit.
+        </p>
+      </div>
+    </div>
+
+    {/* The food itself: photos of the plated dishes */}
+    <div data-reveal-group class="mt-14 grid grid-cols-2 gap-4 lg:grid-cols-4">
       {
-        reliables.map((r) => (
-          <div
-            data-reveal
-            class:list={[
-              'rounded-xl border border-navy/15 bg-white px-5 py-6 text-center',
-              r.feature && 'border-t-2 border-t-gold shadow-card',
-            ]}
-          >
-            <p class="font-serif text-2xl font-semibold text-navy">{r.title}</p>
-            <p class="mt-1 text-sm text-ink/80">{r.note}</p>
+        foodPhotos.map((p) => (
+          <div data-reveal class="overflow-hidden rounded-xl shadow-card ring-1 ring-navy/10">
+            <Image
+              src={p.img}
+              alt={p.alt}
+              widths={[320, 480, 720]}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              loading="lazy"
+              class:list={[
+                'aspect-[3/4] w-full object-cover transition duration-500 motion-safe:hover:scale-[1.03]',
+                p.objectPos,
+              ]}
+            />
           </div>
         ))
       }
-    </div>
-
-    {/* Illustrative sample gallery */}
-    <div class="mt-14">
-      <div data-reveal-group class="grid gap-4 sm:grid-cols-3">
-        {
-          boards.map((b) => (
-            <div data-reveal class="overflow-hidden rounded-xl shadow-card ring-1 ring-navy/10">
-              <Image
-                src={b.img}
-                alt={b.alt}
-                widths={[360, 560, 800]}
-                sizes="(min-width: 640px) 33vw, 100vw"
-                loading="lazy"
-                class="w-full object-cover transition duration-500 motion-safe:hover:scale-[1.03]"
-              />
-            </div>
-          ))
-        }
-      </div>
-      <p data-reveal class="mt-4 text-center text-sm italic text-ink/70">
-        A taste of what comes off the board. For illustration only, not today's menu.
-      </p>
     </div>
 
     {/* CTA */}
@@ -91,8 +153,8 @@ const reliables = [
         Want to know what's on the board today? Give us a ring or just pop in.
       </p>
       <p class="mt-3 text-sm text-ink/70">
-        Got an allergy or a dietary need? Tell us when you book or order and we'll talk you
-        through the board.
+        Happy to be flexible. Tell us if you need gluten free, vegetarian or vegan, or if you have
+        an allergy, and we'll talk you through the board.
       </p>
       <a
         href={PHONE_HREF}
