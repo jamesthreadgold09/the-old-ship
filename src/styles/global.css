@@ -147,22 +147,6 @@ body {
   will-change: transform;
 }
 
-/* Hero scroll cue: a gentle downward bob, only when motion is allowed. */
-@keyframes cue-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(5px);
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .scroll-cue svg {
-    animation: cue-bob 1.9s ease-in-out infinite;
-  }
-}
-
 /* Cormorant is a high-contrast display serif; nudge letter-spacing tighter for
    big headings so it reads as an elegant wordmark rather than body text. The
    large display headline gets a touch more so it holds together as a block. */

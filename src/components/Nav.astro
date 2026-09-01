@@ -57,9 +57,13 @@ import { PHONE_HREF, DIRECTIONS_HREF } from '../lib/site';
         </a>
         <a
           href={PHONE_HREF}
-          class="inline-flex min-h-11 items-center rounded-full bg-navy px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
+          class="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-navy px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-navy-soft"
         >
-          Call to Book
+          {/* "Call to Book" doesn't fit this column on narrow phones, wrapping to two
+              left-aligned lines and ballooning the pill's height. Short label on
+              mobile, full label once there's room (matches Get Directions). */}
+          <span class="sm:hidden">Call</span>
+          <span class="hidden sm:inline">Call to Book</span>
         </a>
       </div>
     </div>
