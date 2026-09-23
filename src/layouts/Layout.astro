@@ -72,5 +72,26 @@ const ogImageAlt = 'The Old Ship, a whitewashed 17th-century village free house 
     <a href="#main" class="skip-link">Skip to content</a>
     <slot />
     <ScrollMotion />
+    {/* Browsers don't retry a failed srcset candidate on their own, so a single
+        dropped request (weak signal, a moment mid-deploy) leaves the alt text
+        showing for good. Give every image one retry before accepting that. */}
+    <script is:inline>
+      document.addEventListener(
+        'error',
+        (event) => {
+          const img = event.target;
+          if (!(img instanceof HTMLImageElement) || img.dataset.retried) return;
+          const failedUrl = img.currentSrc || img.src;
+          if (!failedUrl) return;
+          img.dataset.retried = 'true';
+          const retryUrl = failedUrl + (failedUrl.includes('?') ? '&' : '?') + 'retry=' + Date.now();
+          setTimeout(() => {
+            img.removeAttribute('srcset');
+            img.src = retryUrl;
+          }, 1200);
+        },
+        true,
+      );
+    </script>
   </body>
 </html>
