@@ -17,6 +17,7 @@ import {
   FACEBOOK_URL,
   BAR_HOURS,
   KITCHEN_HOURS,
+  FRIDAY_SUPPER,
 } from '../lib/site';
 
 // Single-page scroll. Sections use the anchors the nav links to.
@@ -75,6 +76,9 @@ const year = new Date().getFullYear();
         <p class="mt-3 text-xs font-medium uppercase tracking-[0.22em] text-gold-light">Kitchen</p>
         <p class="mt-1">
           <span class="text-white/70">{KITCHEN_HOURS.daysLabel}</span> {KITCHEN_HOURS.label}
+        </p>
+        <p class="mt-1">
+          <span class="text-white/70">{FRIDAY_SUPPER.daysLabel}</span> fish and chips, {FRIDAY_SUPPER.label}
         </p>
       </div>
 

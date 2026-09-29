@@ -7,8 +7,15 @@ import boardExample from '../assets/photos/menu-board-3.jpg';
 import fishAndChips from '../assets/photos/food-fish-and-chips.jpg';
 import ploughmans from '../assets/photos/food-ploughmans.jpg';
 import sandwich from '../assets/photos/food-sandwich.jpg';
-import sundayRoast from '../assets/photos/food-sunday-roast.jpg';
-import { PHONE_HREF, PHONE_DISPLAY, KITCHEN_HOURS } from '../lib/site';
+import sundayRoast from '../assets/photos/food-sunday-roast-2.jpg';
+import {
+  PHONE_HREF,
+  PHONE_DISPLAY,
+  EMAIL,
+  EMAIL_HREF,
+  KITCHEN_HOURS,
+  FRIDAY_SUPPER,
+} from '../lib/site';
 
 // What is usually chalked up. No prices here on purpose: the board in the pub is
 // the only place they live, so nothing on the website can go stale or contradict it.
@@ -23,7 +30,7 @@ const dishes = [
   },
   {
     title: 'Beer-battered fish and chips',
-    note: 'Brixham fish, delivered fresh, with our own homemade tartare sauce',
+    note: 'Brixham fish, delivered fresh, with our own homemade tartare sauce. Also on Friday evenings, 6–8pm',
   },
   {
     title: 'Sandwiches',
@@ -56,7 +63,7 @@ const foodPhotos = [
   },
   {
     img: sundayRoast,
-    alt: 'A Sunday roast: slices of roast beef with a Yorkshire pudding, roast potatoes, parsnip, carrots, green beans, cauliflower cheese and gravy',
+    alt: 'A Sunday roast: pink slices of roast beef with a tall Yorkshire pudding, crisp roast potatoes, a roast parsnip, carrots, tenderstem broccoli, cauliflower cheese and gravy, with horseradish on the side',
     objectPos: 'object-center',
   },
 ];
@@ -82,8 +89,48 @@ const foodPhotos = [
     {/* Prominent food-times callout so nobody turns up at 7pm expecting dinner */}
     <div data-reveal class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl border-t-2 border-gold bg-navy px-6 py-6 text-center text-white shadow-soft">
       <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-light">Kitchen hours</span>
-      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, {KITCHEN_HOURS.label}</p>
-      <p class="text-sm text-white/80">The bar stays open into the evening, but the kitchen is lunchtime only.</p>
+      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, <span class="whitespace-nowrap">{KITCHEN_HOURS.label}</span></p>
+      <p class="text-sm text-white/80">
+        The bar stays open into the evening. Apart from Friday fish and chips, the kitchen is lunchtime only.
+      </p>
+    </div>
+
+    {/* Friday evening fish and chips: the one evening food service, flagged in red */}
+    <div
+      data-reveal
+      class="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 rounded-2xl border-t-2 border-brick bg-white px-6 py-7 text-center shadow-card ring-1 ring-brick/20"
+    >
+      <span class="rounded-full bg-brick px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white">
+        New
+      </span>
+      <p class="font-serif text-3xl font-semibold text-brick sm:text-4xl">
+        {FRIDAY_SUPPER.title}, <span class="whitespace-nowrap">{FRIDAY_SUPPER.label}</span>
+      </p>
+      <p class="max-w-lg leading-relaxed text-ink/80">
+        We're now open on Friday evenings for fish and chips: fresh Brixham cod with triple-fried
+        chips, mushy peas and our own homemade tartare sauce.
+      </p>
+      <p class="font-medium text-brick">Booking is preferred, so please call or email us.</p>
+      <div class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <a
+          href={PHONE_HREF}
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brick px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brick-soft motion-safe:hover:-translate-y-0.5"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
+          </svg>
+          Call {PHONE_DISPLAY}
+        </a>
+        <a
+          href={EMAIL_HREF}
+          class="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-brick ring-1 ring-brick/40 transition hover:bg-brick/5 motion-safe:hover:-translate-y-0.5"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5h17v11h-17zM3.5 6.5l8.5 7 8.5-7" />
+          </svg>
+          <span class="break-all sm:break-normal">{EMAIL}</span>
+        </a>
+      </div>
     </div>
 
     {/* One example board alongside what is usually chalked on it */}

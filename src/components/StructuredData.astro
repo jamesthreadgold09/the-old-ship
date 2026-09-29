@@ -4,8 +4,8 @@
 // is sourced from src/lib/site.ts so it can never drift from the visible copy,
 // and all absolute URLs derive from Astro.site + BASE_URL so they flip with the
 // domain. openingHoursSpecification models the BAR (venue-open) hours; the
-// kitchen is lunchtime-only, noted in `description` since schema has no separate
-// kitchen-hours field.
+// kitchen hours (lunch daily, plus Friday evening fish and chips) are noted in
+// `description` since schema has no separate kitchen-hours field.
 import {
   BUSINESS_NAME,
   PHONE_E164,
@@ -16,6 +16,7 @@ import {
   FOUNDING_YEAR,
   BAR_HOURS,
   KITCHEN_HOURS,
+  FRIDAY_SUPPER,
   FACILITIES,
 } from '../lib/site';
 import { absoluteUrl, siteRoot } from '../lib/urls';
@@ -71,7 +72,7 @@ const jsonLd = {
   paymentAccepted: 'Cash, Credit Card, Debit Card, Contactless',
   amenityFeature,
   sameAs: [FACEBOOK_URL],
-  description: `A traditional village free house on the Marlow Road in Cadmore End, serving since ${FOUNDING_YEAR}. Food is served every day ${KITCHEN_HOURS.label}; the bar is open lunch and evening.`,
+  description: `A traditional village free house on the Marlow Road in Cadmore End, serving since ${FOUNDING_YEAR}. Food is served every day ${KITCHEN_HOURS.label}, plus fish and chips on Friday evenings ${FRIDAY_SUPPER.label}; the bar is open lunch and evening.`,
 };
 ---
 
