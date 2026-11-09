@@ -60,8 +60,8 @@ reopen.
 
 ### Changing the food photos
 
-The Food section shows the wide **buffet** photo, then four photos of plated dishes
-(fish and chips, ploughman's, sandwich, Sunday roast). They all live in
+The Food section shows four photos of plated dishes (fish and chips, ploughman's,
+sandwich, Sunday roast). They all live in
 `src/components/Food.astro`.
 
 **To swap one for a better photo:**
@@ -96,8 +96,13 @@ the whole plate is in shot.
   import at the top of `Food.astro`. Swap it the same way, and update the `alt` text
   to match the dishes on the new board.
 - **The list of dishes** ("Usually on the board") is `const dishes` in `Food.astro`.
-  Deliberately **no prices**: the blackboard in the pub is the only place those live,
+  Deliberately **no prices**: the blackboard in the pub is the only place those are kept up to date,
   so the website can never contradict it.
+- **The three cards under the intro** (kitchen hours, Friday fish and chips, the
+  monthly food night) take their times from `src/lib/site.ts` (`KITCHEN_HOURS`,
+  `FRIDAY_SUPPER`, `MONTHLY_NIGHT`), so the footer and Visit Us stay in step. The
+  monthly night deliberately has no dates on the website: announce each one on
+  Facebook, which the card links to.
 - The full-size originals of the food photos are kept in `photo-originals/food/`. That
   folder stays on your computer and is not published with the site.
 

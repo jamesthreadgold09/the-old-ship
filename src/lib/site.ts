@@ -43,7 +43,7 @@ export const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61570735266
 // ---------------------------------------------------------------------------
 // Opening hours: single source of truth.
 // The BAR is the venue-open time. The KITCHEN (food) is lunchtime, plus the
-// Friday evening fish and chip supper (FRIDAY_SUPPER below).
+// Friday evening fish and chip supper and the monthly food night (below).
 // `days` uses schema.org DayOfWeek names so the same data maps straight into
 // JSON-LD openingHoursSpecification (see StructuredData.astro).
 // `ranges` are 24h "HH:MM" pairs; `label` is the friendly display string.
@@ -73,7 +73,7 @@ export const BAR_HOURS: HoursRow[] = [
   },
 ];
 
-// Kitchen (food service): every day, lunchtime only.
+// Kitchen (food service): lunch every day.
 export const KITCHEN_HOURS = {
   days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   opens: '12:00',
@@ -82,7 +82,7 @@ export const KITCHEN_HOURS = {
   daysLabel: 'Every day',
 } as const;
 
-// Friday evening fish and chip supper: the only evening food service.
+// Friday evening fish and chip supper: the regular weekly evening food service.
 // Shown as a highlighted callout in the Food section and alongside the kitchen
 // hours in Visit Us and the footer. Booking preferred.
 export const FRIDAY_SUPPER = {
@@ -92,6 +92,14 @@ export const FRIDAY_SUPPER = {
   label: '6–8pm',
   daysLabel: 'Friday evenings',
   title: 'Friday fish and chips',
+} as const;
+
+// Monthly themed food night (a curry night, pie and mash night and so on). The
+// theme and date change each month and are announced on Facebook, so the site
+// points people there rather than listing dates that would go stale.
+export const MONTHLY_NIGHT = {
+  daysLabel: 'Once a month',
+  label: 'a themed set menu evening',
 } as const;
 
 export const FACILITIES = [

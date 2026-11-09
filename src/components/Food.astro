@@ -1,9 +1,10 @@
 ---
-// Food: daily-board philosophy, prominent lunch-only kitchen times, one example
-// chalkboard alongside what is usually on it, and a gallery of the food itself.
+// Food: daily-board philosophy, a row of three "when to eat" cards (kitchen
+// hours, Friday fish and chips, the monthly food night), the current chalkboard
+// alongside what is usually on it, and a gallery of the food itself.
 import { Image } from 'astro:assets';
 import SectionHeader from './SectionHeader.astro';
-import boardExample from '../assets/photos/menu-board-3.jpg';
+import boardExample from '../assets/photos/menu-board-4.jpg';
 import fishAndChips from '../assets/photos/food-fish-and-chips.jpg';
 import ploughmans from '../assets/photos/food-ploughmans.jpg';
 import sandwich from '../assets/photos/food-sandwich.jpg';
@@ -15,30 +16,36 @@ import {
   EMAIL_HREF,
   KITCHEN_HOURS,
   FRIDAY_SUPPER,
+  MONTHLY_NIGHT,
+  FACEBOOK_URL,
 } from '../lib/site';
 
 // What is usually chalked up. No prices here on purpose: the board in the pub is
 // the only place they live, so nothing on the website can go stale or contradict it.
 const dishes = [
   {
+    title: 'Beer-battered fish and chips',
+    note: `Fresh Brixham cod, triple-fried chips, garden peas and our own homemade tartare sauce. Also on Friday evenings, ${FRIDAY_SUPPER.label}`,
+  },
+  {
+    title: 'Hearty lunch plates',
+    note: 'Such as French onion soup with crusty bread, mac and cheese topped with a poached egg, or pan-fried chicken escalope with creamy mash',
+  },
+  {
+    title: 'Seasonal toasties',
+    note: 'Cheese and red onion chutney, roast beef and chilli jam, ham and cheese, and a proper tuna melt. The fillings change with the seasons.',
+  },
+  {
+    title: 'Sandwiches',
+    note: 'Cheese and ploughman\'s pickle, roast beef with salad and horseradish, tuna and sweetcorn (made to order)',
+  },
+  {
     title: 'Sunday roast beef',
     note: 'Every Sunday. Book ahead, they go quickly.',
   },
   {
-    title: "Ploughman's",
-    note: 'Artisan cheeses, a portion of pork pie, a selection of salads and bread',
-  },
-  {
-    title: 'Beer-battered fish and chips',
-    note: 'Brixham fish, delivered fresh, with our own homemade tartare sauce. Also on Friday evenings, 6–8pm',
-  },
-  {
-    title: 'Sandwiches',
-    note: "Ham & piccalilli, cheese and ploughman's pickle, tuna and cucumber (made to order)",
-  },
-  {
     title: 'Desserts',
-    note: 'Eton mess, crème brûlée, chocolate brownie with ice cream',
+    note: 'Sticky toffee pudding, chocolate brownie with ice cream, lemon cheesecake',
   },
 ];
 
@@ -80,74 +87,121 @@ const foodPhotos = [
     <div data-reveal class="mx-auto max-w-2xl text-center">
       <p class="mt-6 font-serif text-3xl italic text-navy">No fixed menu, and that's the point.</p>
       <p class="mt-4 text-lg leading-relaxed text-ink/80">
-        Every morning we chalk up the day's board: classic pub lunches, freshly made to order from
-        the freshest ingredients we can get our hands on, with salads and vegetables often grown in
-        local gardens and allotments.
+        Each day we chalk up a board of proper pub lunches, all made to order with good local
+        ingredients. Many of our salads and vegetables are grown in local gardens and
+        allotments.
       </p>
     </div>
 
-    {/* Prominent food-times callout so nobody turns up at 7pm expecting dinner */}
-    <div data-reveal class="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-2 rounded-2xl border-t-2 border-gold bg-navy px-6 py-6 text-center text-white shadow-soft">
-      <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-light">Kitchen hours</span>
-      <p class="font-serif text-3xl font-semibold sm:text-4xl">Food served every day, <span class="whitespace-nowrap">{KITCHEN_HOURS.label}</span></p>
-      <p class="text-sm text-white/80">
-        The bar stays open into the evening. Apart from Friday fish and chips, the kitchen is lunchtime only.
-      </p>
-    </div>
-
-    {/* Friday evening fish and chips: the one evening food service, flagged in red */}
-    <div
-      data-reveal
-      class="mx-auto mt-6 flex max-w-2xl flex-col items-center gap-3 rounded-2xl border-t-2 border-brick bg-white px-6 py-7 text-center shadow-card ring-1 ring-brick/20"
-    >
-      <span class="rounded-full bg-brick px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white">
-        New
-      </span>
-      <p class="font-serif text-3xl font-semibold text-brick sm:text-4xl">
-        {FRIDAY_SUPPER.title}, <span class="whitespace-nowrap">{FRIDAY_SUPPER.label}</span>
-      </p>
-      <p class="max-w-lg leading-relaxed text-ink/80">
-        We're now open on Friday evenings for fish and chips: fresh Brixham cod with triple-fried
-        chips, mushy peas and our own homemade tartare sauce.
-      </p>
-      <p class="font-medium text-brick">Booking is preferred, so please call or email us.</p>
-      <div class="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+    {/*
+      When to eat: three cards side by side on desktop, stacked on phones.
+      Kitchen hours lead so nobody turns up at 7pm expecting dinner, then the two
+      evening food services. `flex-col` plus `mt-auto` keeps the buttons aligned
+      along the bottom of each card.
+    */}
+    <div data-reveal-group class="mt-10 grid gap-5 md:grid-cols-3">
+      {/* Kitchen hours */}
+      <div
+        data-reveal
+        class="flex flex-col items-center gap-3 rounded-2xl border-t-2 border-gold bg-white px-6 py-7 text-center shadow-card ring-1 ring-navy/10"
+      >
+        <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-ink">Kitchen hours</span>
+        <p class="font-serif text-3xl font-semibold leading-tight text-navy">
+          Every day<br /><span class="whitespace-nowrap">{KITCHEN_HOURS.label}</span>
+        </p>
+        <p class="text-sm leading-relaxed text-ink/80">
+          Lunch is served daily. The bar stays open into the evening, and the kitchen opens again
+          for Friday fish and chips and our monthly food night.
+        </p>
         <a
           href={PHONE_HREF}
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brick px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brick-soft motion-safe:hover:-translate-y-0.5"
+          class="mt-auto inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/30 transition hover:bg-navy/5 motion-safe:hover:-translate-y-0.5"
         >
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
           </svg>
           Call {PHONE_DISPLAY}
         </a>
+      </div>
+
+      {/* Friday fish and chips: weekly evening service */}
+      <div
+        data-reveal
+        class="flex flex-col items-center gap-3 rounded-2xl border-t-2 border-gold bg-white px-6 py-7 text-center shadow-card ring-1 ring-navy/10"
+      >
+        <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-ink">Every Friday</span>
+        <p class="font-serif text-3xl font-semibold leading-tight text-navy">
+          Fish and chips<br /><span class="whitespace-nowrap">{FRIDAY_SUPPER.label}</span>
+        </p>
+        <p class="text-sm leading-relaxed text-ink/80">
+          Fresh Brixham cod with triple-fried chips, garden peas and our own homemade tartare sauce.
+          Booking is preferred.
+        </p>
+        <div class="mt-auto flex flex-wrap justify-center gap-2">
+          <a
+            href={PHONE_HREF}
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-navy-soft motion-safe:hover:-translate-y-0.5"
+          >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5c0 8 6 14 14 14a2 2 0 002-2v-2.2a1 1 0 00-.8-1l-3-.6a1 1 0 00-1 .4l-.8 1a11 11 0 01-4.6-4.6l1-.8a1 1 0 00.4-1l-.6-3a1 1 0 00-1-.8H4.5a2 2 0 00-2 2z" />
+            </svg>
+            Call to book
+          </a>
+          <a
+            href={EMAIL_HREF}
+            aria-label={`Email us at ${EMAIL}`}
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/30 transition hover:bg-navy/5 motion-safe:hover:-translate-y-0.5"
+          >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5h17v11h-17zM3.5 6.5l8.5 7 8.5-7" />
+            </svg>
+            Email
+          </a>
+        </div>
+      </div>
+
+      {/* Monthly themed food night: dates and themes live on Facebook */}
+      <div
+        data-reveal
+        class="flex flex-col items-center gap-3 rounded-2xl border-t-2 border-gold bg-white px-6 py-7 text-center shadow-card ring-1 ring-navy/10"
+      >
+        <span class="text-xs font-medium uppercase tracking-[0.28em] text-gold-ink">{MONTHLY_NIGHT.daysLabel}</span>
+        <p class="font-serif text-3xl font-semibold leading-tight text-navy">
+          Themed<br />food night
+        </p>
+        <p class="text-sm leading-relaxed text-ink/80">
+          One set menu evening a month, such as a curry night or pie and mash night. We're still
+          trying out new ideas, so check our Facebook page for the next one.
+        </p>
         <a
-          href={EMAIL_HREF}
-          class="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-brick ring-1 ring-brick/40 transition hover:bg-brick/5 motion-safe:hover:-translate-y-0.5"
+          href={FACEBOOK_URL}
+          target="_blank"
+          rel="noopener"
+          class="mt-auto inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/30 transition hover:bg-navy/5 motion-safe:hover:-translate-y-0.5"
         >
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5h17v11h-17zM3.5 6.5l8.5 7 8.5-7" />
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z" />
           </svg>
-          <span class="break-all sm:break-normal">{EMAIL}</span>
+          See what's next
         </a>
       </div>
     </div>
 
-    {/* One example board alongside what is usually chalked on it */}
-    <div class="mt-14 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-      <div data-reveal class="lg:order-last">
-        <div class="mx-auto w-full max-w-sm overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10">
+    {/* The current board (landscape) alongside what is usually chalked on it */}
+    <div class="mt-16 grid items-start gap-10 lg:grid-cols-[7fr_5fr] lg:gap-12">
+      <div data-reveal>
+        <div class="overflow-hidden rounded-2xl shadow-soft ring-1 ring-navy/10">
           <Image
             src={boardExample}
-            alt="A chalkboard lunch menu at The Old Ship listing beer-battered cod and chips, quiche and ploughman's"
-            widths={[420, 660, 900]}
-            sizes="(min-width: 1024px) 384px, 100vw"
+            alt="The Old Ship's lunch menu chalkboard, served 12 to 2:30pm: French onion soup, beer-battered fresh cod and chips, mac and cheese with a poached egg, chicken escalope, seasonal toasties, sandwiches, triple cooked chips and desserts including sticky toffee pudding"
+            widths={[480, 800, 1200, 1600]}
+            sizes="(min-width: 1152px) 640px, (min-width: 1024px) 56vw, 100vw"
             loading="lazy"
-            class="w-full transition duration-500 motion-safe:hover:scale-[1.03]"
+            class="w-full transition duration-500 motion-safe:hover:scale-[1.02]"
           />
         </div>
-        <p class="mx-auto mt-3 max-w-sm text-center text-sm italic text-ink/70">
-          An example of our daily board. Today's will be different.
+        <p class="mt-3 text-center text-sm italic text-ink/70">
+          A recent lunch board. It changes with what's fresh, so today's may be different.
         </p>
       </div>
 
@@ -155,20 +209,18 @@ const foodPhotos = [
         <p data-reveal class="text-xs font-medium uppercase tracking-[0.28em] text-ink/75">
           Usually on the board
         </p>
-        <ul data-reveal-group class="mt-5 divide-y divide-navy/10 border-y border-navy/10">
+        <ul data-reveal-group class="mt-4 divide-y divide-navy/10 border-y border-navy/10">
           {
             dishes.map((d) => (
-              <li data-reveal class="py-4">
+              <li data-reveal class="py-3.5">
                 <p class="font-serif text-xl font-semibold text-navy">{d.title}</p>
                 <p class="mt-1 text-sm leading-relaxed text-ink/80">{d.note}</p>
               </li>
             ))
           }
         </ul>
-        <p data-reveal class="mt-6 rounded-xl border border-navy/15 bg-white px-5 py-4 text-sm leading-relaxed text-ink/80">
-          We don't publish a menu with prices online. Everything is written up on the blackboard in
-          the pub and changes with what's fresh that day. Give us a ring to check what's on before
-          you visit.
+        <p data-reveal class="mt-4 text-sm italic text-ink/70">
+          Dishes change daily, so the board in the pub has the latest.
         </p>
       </div>
     </div>
